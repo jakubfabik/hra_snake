@@ -1,5 +1,6 @@
 package Mapa;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Mapa {
@@ -42,15 +43,13 @@ public class Mapa {
         }
     }
 
-    public void vypis(){
+    public void kresli(Graphics g){
         int velkost = 20;
         for (int j=0; j<velkost; j++) {
-            for (int i=0; i < velkost; i++) {
-                System.out.print(mapa[i][j].vrat());
+            for (int i=0; i <velkost; i++) {
+                mapa[i][j].obr(g, i, j);
             }
-            System.out.println();
         }
-        System.out.println();
     }
 
 

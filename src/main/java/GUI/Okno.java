@@ -18,17 +18,15 @@ public class Okno extends JFrame {
 
     public void OknoFcia(){
         //nastavenia framu
-        frame.setSize(900, 600);
+        frame.setSize(900, 630);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public void OvladaciePrvky(){
-        platno.setBackground(Color.GRAY);
         platno.setPreferredSize(new Dimension(platno.getWidth(),platno.getHeight()));
         //panel2 layout
-        panel2.setBackground(Color.CYAN);
         panel2.setPreferredSize(new Dimension(300,600));
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS));
         //gridlayovt rre rozlozenie prvkov

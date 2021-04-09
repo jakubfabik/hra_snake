@@ -1,5 +1,7 @@
 package GUI;
 
+import Mapa.Mapa;
+
 import javax.swing.*;
 
 public class HlavneOkno extends JFrame {

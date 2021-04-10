@@ -34,7 +34,7 @@ public class Mapa {
                 int cislo = rand.nextInt(10);
                 switch (cislo) {
                     case 0:
-                        mapa[i][j] = new Stena();
+                        mapa[i][j] = new Prekazka();
                         break;
                     default:
                         mapa[i][j] = new Cesta();

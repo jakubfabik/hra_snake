@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
-public class Cesta extends MiestoNaMape{
-    URL url = getClass().getResource("cesta.png");
+public class Prekazka extends MiestoNaMape{
+    URL url = getClass().getResource("prekazka.png");
     Image img = new ImageIcon(url).getImage();
 
     @Override

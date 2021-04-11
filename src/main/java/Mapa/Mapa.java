@@ -2,15 +2,18 @@ package Mapa;
 
 import java.awt.*;
 import java.util.Random;
+import Had.*;
 
 public class Mapa {
 
     private MiestoNaMape[][] mapa;
+    Had had = new Had();
 
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
         generujMapu();
         generujPrekazky();
+
     }
 
     private void generujMapu(){
@@ -34,10 +37,10 @@ public class Mapa {
                 int cislo = rand.nextInt(10);
                 switch (cislo) {
                     case 0:
-                        mapa[i][j] = new Prekazka();
+                        mapa[j][i] = new Prekazka();
                         break;
                     default:
-                        mapa[i][j] = new Cesta();
+                        mapa[j][i] = new Cesta();
                 }
             }
         }
@@ -47,10 +50,15 @@ public class Mapa {
         int velkost = 20;
         for (int j=0; j<velkost; j++) {
             for (int i=0; i <velkost; i++) {
+                if(j == had.HadX() & i == had.HadY()){
+                    mapa[j][i] = new HadNaMape();
+                }
                 mapa[i][j].obr(g, i, j);
             }
         }
     }
+
+
 
 
 }

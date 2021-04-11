@@ -1,5 +1,6 @@
 package GUI;
 
+import Had.Had;
 import Mapa.Mapa;
 
 import javax.swing.*;

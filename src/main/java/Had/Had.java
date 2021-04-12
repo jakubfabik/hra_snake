@@ -6,7 +6,7 @@ import GUI.*;
 public class Had {
     private HadPoz poz;
     private int zivot = 3;
-    private int dlzka = 1;
+    private int dlzka = 8;
 
     public Had(){
         this.poz = new HadPoz(10,10);
@@ -31,5 +31,8 @@ public class Had {
             System.out.println("had zomrel koniec hry");
         }
     }
+    public int dlzka(){return this.dlzka;}
+    public int zivoty(){return this.zivot;}
+
 
 }

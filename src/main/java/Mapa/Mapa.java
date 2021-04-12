@@ -42,6 +42,10 @@ public class Mapa {
                     default:
                         mapa[j][i] = new Cesta();
                 }
+                //Todo podmienky pre kreslenie hada
+                if(j == had.HadX() & i == had.HadY()) {
+                    kresliHada(j, i);
+                }
             }
         }
     }
@@ -50,15 +54,28 @@ public class Mapa {
         int velkost = 20;
         for (int j=0; j<velkost; j++) {
             for (int i=0; i <velkost; i++) {
-                if(j == had.HadX() & i == had.HadY()){
-                    mapa[j][i] = new HadNaMape();
-                }
                 mapa[i][j].obr(g, i, j);
             }
         }
     }
 
-
+    public void kresliHada(int x, int y){
+        //TODO treba riesit: obluk hada, inicializacne prekrytie prekazky hadom
+        if(had.dlzka() == 1){
+            mapa[x][y] = new HadHlava();
+        }
+        if (had.dlzka() == 2) {
+            mapa[x][y] = new HadHlava();
+            mapa[x][y-1] = new HadKoniec();
+        }
+        if  (had.dlzka() > 2) {
+            mapa[x][y] = new HadHlava();
+            for(int i = had.dlzka();i > 1; i--){
+                mapa[x][y-i+1] = new HadTelo();
+            }
+            mapa[x][y-had.dlzka()] = new HadKoniec();
+        }
+    }
 
 
 }

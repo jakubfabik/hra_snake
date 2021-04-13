@@ -7,13 +7,11 @@ import Had.*;
 public class Mapa {
 
     private MiestoNaMape[][] mapa;
-    Had had = new Had();
 
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
         generujMapu();
         generujPrekazky();
-
     }
 
     private void generujMapu(){
@@ -43,9 +41,9 @@ public class Mapa {
                         mapa[j][i] = new Cesta();
                 }
                 //Todo podmienky pre kreslenie hada
-                if(j == had.HadX() & i == had.HadY()) {
+                /*if(j == had.HadX() & i == had.HadY()) {
                     kresliHada(j, i);
-                }
+                }*/
             }
         }
     }
@@ -59,7 +57,7 @@ public class Mapa {
         }
     }
 
-    public void kresliHada(int x, int y){
+   /* public void kresliHada(int x, int y){
         //TODO treba riesit: obluk hada, inicializacne prekrytie prekazky hadom
         if(had.dlzka() == 1){
             mapa[x][y] = new HadHlava();
@@ -75,7 +73,5 @@ public class Mapa {
             }
             mapa[x][y-had.dlzka()] = new HadKoniec();
         }
-    }
-
-
+    }*/
 }

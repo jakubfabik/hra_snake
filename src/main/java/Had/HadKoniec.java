@@ -1,12 +1,18 @@
-package Mapa;
+package Had;
+
+import Mapa.MiestoNaMape;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
-public class HadHlava extends MiestoNaMape{
-    URL url = getClass().getResource("had.png");
+public class HadKoniec extends CastHada {
+    URL url = getClass().getResource("had_koniec.png");
     Image img = new ImageIcon(url).getImage();
+
+    public HadKoniec(int x, int y) {
+        super(x, y);
+    }
 
     @Override
     public void obr(Graphics g, int i, int j) {

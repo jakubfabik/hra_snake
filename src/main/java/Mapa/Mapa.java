@@ -57,21 +57,22 @@ public class Mapa {
         }
     }
 
-   /* public void kresliHada(int x, int y){
-        //TODO treba riesit: obluk hada, inicializacne prekrytie prekazky hadom
-        if(had.dlzka() == 1){
-            mapa[x][y] = new HadHlava();
+    public Boolean jeCesta(int x, int y){
+        if(mapa[x][y] instanceof Cesta){
+            return true;
         }
-        if (had.dlzka() == 2) {
-            mapa[x][y] = new HadHlava();
-            mapa[x][y-1] = new HadKoniec();
+        return false;
+    }
+    public Boolean jeStena(int x, int y){
+        if(mapa[x][y] instanceof Stena){
+            return true;
         }
-        if  (had.dlzka() > 2) {
-            mapa[x][y] = new HadHlava();
-            for(int i = had.dlzka();i > 1; i--){
-                mapa[x][y-i+1] = new HadTelo();
-            }
-            mapa[x][y-had.dlzka()] = new HadKoniec();
+        return false;
+    }
+    public Boolean jePrekazka(int x, int y){
+        if(mapa[x][y] instanceof Prekazka){
+            return true;
         }
-    }*/
+        return false;
+    }
 }

@@ -1,14 +1,12 @@
 package GUI;
 
-import Had.Had;
-import Mapa.Mapa;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class Platno extends JPanel {
 
-    Mapa m = new Mapa();
+    Hra h = new Hra();
+
     private int WIDTH = 600;
     private int HEIGHT = 630;
 
@@ -22,6 +20,6 @@ public class Platno extends JPanel {
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        m.kresli(g);
+        h.kresli(g);
     }
 }

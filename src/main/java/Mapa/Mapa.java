@@ -57,6 +57,7 @@ public class Mapa {
         }
     }
 
+
     public Boolean jeCesta(int x, int y){
         if(mapa[x][y] instanceof Cesta){
             return true;

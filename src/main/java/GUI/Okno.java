@@ -1,5 +1,8 @@
 package GUI;
 
+import Had.Had;
+import Mapa.Mapa;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,10 +12,11 @@ public class Okno extends JFrame {
         OknoFcia();
         OvladaciePrvky();
     }
-
+    Mapa m = new Mapa();
+    Had h = new Had(m);
     JFrame frame = new JFrame("Snake");
     //Platno
-    Platno platno = new Platno();
+    Platno platno = new Platno(m,h);
     //layout v pravo
     JPanel panel2 = new JPanel();
 

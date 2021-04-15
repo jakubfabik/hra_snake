@@ -1,11 +1,35 @@
 package GUI;
 
+import Had.Had;
+import Mapa.Mapa;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
-public class Platno extends JPanel {
+public class Platno extends JPanel implements ActionListener {
+    Mapa m;
+    Had h;
+    public Platno(Mapa m, Had h){
+        timer.start();
+        addKeyListener(new TAdapter());
+        setFocusable(true);
+        this.m = m;
+        this.h = h;
+    }
 
-    Hra h = new Hra();
+    private boolean leftDirection = false;
+    private boolean rightDirection = true;
+    private boolean upDirection = false;
+    private boolean downDirection = false;
+    private boolean inGame = true;
+
+    Timer timer = new Timer(800,this);
+
+
 
     private int WIDTH = 600;
     private int HEIGHT = 630;
@@ -20,6 +44,59 @@ public class Platno extends JPanel {
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+        m.kresli(g);
         h.kresli(g);
+
+    }
+
+    private class TAdapter extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            int key = e.getKeyCode();
+
+            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
+                leftDirection = true;
+                upDirection = false;
+                downDirection = false;
+                h.dolava();
+                System.out.println("left");
+            }
+
+            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
+                rightDirection = true;
+                upDirection = false;
+                downDirection = false;
+                h.doprava();
+                System.out.println("right");
+            }
+
+            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
+                upDirection = true;
+                rightDirection = false;
+                leftDirection = false;
+                h.hore();
+                System.out.println("up");
+            }
+
+            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
+                downDirection = true;
+                rightDirection = false;
+                h.dole();
+                leftDirection = false;
+
+                System.out.println("down");
+            }
+
+        }
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+            //Todo
+
+        repaint();
     }
 }

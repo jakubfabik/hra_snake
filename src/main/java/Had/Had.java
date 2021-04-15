@@ -66,13 +66,7 @@ public class Had {
     public int dlzka(){return this.dlzka;}
     public int zivoty(){return this.zivot;}
 
-
-    public void kresli(Graphics g){
-
-
-        h.forEach((item) -> {
-            item.obr(g,item.p.CastHadaXget(), item.p.CastHadaYget());
-        });
+    public void pohni(){
         //dole
         if(smer.get(3)){
             System.out.println("stlacene dole");
@@ -98,6 +92,11 @@ public class Had {
                 item.p.CastHadaXset(item.p.CastHadaXget()-1);
             });
         }
-        }
+    }
+    public void kresli(Graphics g){
+        h.forEach((item) -> {
+            item.obr(g,item.p.CastHadaXget(), item.p.CastHadaYget());
+        });
+    }
 
 }

@@ -1,17 +1,21 @@
 package Mapa;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import Had.*;
 
 public class Mapa {
 
     private MiestoNaMape[][] mapa;
+    private ArrayList<Ovocie> ovocia = new ArrayList<>();
 
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
         generujMapu();
         generujPrekazky();
+        generujOvocia();
     }
 
     private void generujMapu(){
@@ -40,12 +44,37 @@ public class Mapa {
                     default:
                         mapa[j][i] = new Cesta();
                 }
-                //Todo podmienky pre kreslenie hada
-                /*if(j == had.HadX() & i == had.HadY()) {
-                    kresliHada(j, i);
-                }*/
             }
         }
+    }
+
+    public void generujOvocia(){
+        Random rand = new Random();
+        int pocetOvoci = rand.nextInt(3)+1;
+
+        for (int i=0; i < pocetOvoci; i++) {
+            int cislo = rand.nextInt(6);
+            int x = rand.nextInt(18)+1;
+            int y = rand.nextInt(18)+1;
+            switch (cislo) {
+                case 0:
+                    ovocia.add(new Huba(x,y));
+                    break;
+                case 1:
+                    ovocia.add(new Banan(x,y));
+                    break;
+                case 2:
+                    ovocia.add(new Hruska(x,y));
+                    break;
+                default:
+                    ovocia.add(new Jablko(x,y));
+            }
+        }
+    }
+    public void kresliOvocia(Graphics g){
+        ovocia.forEach((item) -> {
+            item.obr(g, item.x, item.y);
+        });
     }
 
     public void kresli(Graphics g){

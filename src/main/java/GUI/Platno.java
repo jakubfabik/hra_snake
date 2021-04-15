@@ -45,8 +45,8 @@ public class Platno extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         m.kresli(g);
+        m.kresliOvocia(g);
         h.kresli(g);
-
     }
 
     private class TAdapter extends KeyAdapter {
@@ -95,8 +95,7 @@ public class Platno extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-            //Todo
-
+        h.pohni();
         repaint();
     }
 }

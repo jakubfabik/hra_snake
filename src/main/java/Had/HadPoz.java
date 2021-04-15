@@ -11,7 +11,10 @@ public class HadPoz {
         this.y = y;
     }
 
-    int HadX(){return this.x;}
-    int HadY(){return this.y;}
+    int CastHadaXget(){return this.x;}
+    int CastHadaYget(){return this.y;}
+    void CastHadaXset(int x){this.x = x;}
+    void CastHadaYset(int y){this.y = y;}
+
 
 }

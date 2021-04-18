@@ -44,6 +44,7 @@ public class Platno extends JPanel implements ActionListener {
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+        Graphics2D g2d =   (Graphics2D) g.create();
         m.kresli(g);
         m.kresliOvocia(g);
         h.kresli(g);

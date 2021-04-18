@@ -2,9 +2,7 @@ package Mapa;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
-import Had.*;
 
 public class Mapa {
 
@@ -50,10 +48,10 @@ public class Mapa {
 
     public void generujOvocia(){
         Random rand = new Random();
-        int pocetOvoci = rand.nextInt(3)+1;
+        int pocetOvoci = rand.nextInt(4)+1;
 
         for (int i=0; i < pocetOvoci; i++) {
-            int cislo = rand.nextInt(6);
+            int cislo = rand.nextInt(8);
             int x = rand.nextInt(18)+1;
             int y = rand.nextInt(18)+1;
             switch (cislo) {
@@ -64,6 +62,9 @@ public class Mapa {
                     ovocia.add(new Banan(x,y));
                     break;
                 case 2:
+                    ovocia.add(new Hruska(x,y));
+                    break;
+                case 3:
                     ovocia.add(new Hruska(x,y));
                     break;
                 default:

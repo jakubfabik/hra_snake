@@ -13,7 +13,7 @@ public class Had {
     private Mapa m;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private int zivot = 3;
-    private int dlzka = 4;  // realne 5 pocitame s nulou ta je hlava
+    private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     int castLen = 0;
 
@@ -69,38 +69,58 @@ public class Had {
     public int dlzka(){return this.dlzka;}
     public int zivoty(){return this.zivot;}
 
-    public void pohni(){
+    public void kontrolaOvocia(){
+        if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) == 0)){}
+        else {
+            if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) < 4)){
+                dlzka++;
+                m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
+                m.generujOvocia();
+            }
+            else {
+                zivot--;
+                System.out.println("Stratil si zivot");
+                m.zrusOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget());
+                m.generujOvocia();
+            }
+        }
+    }
+    public void resetHada(){
+        this.hlava = new HadHlava(10,10);
+        this.dlzka = 1;
+        System.out.println("Stratil si zivot");
+        while(castLen !=0){
+            fifoCastiHada.pop();
+            castLen --;
+        }
+    }
 
-        //dole
-        if(smer.get(3)){
-            System.out.println("stlacene dole");
-            hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()+1);
-            fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1));
-            castLen = castLen+1;
+    public int kontrolaKoncaHry(){
+        if(zivot < 1) {
+            System.out.println("Had zomrel!!!");
+            zivot--;
+            return 0;
         }
-        if(smer.get(2)){
-            System.out.println("stlacene hore");
-            hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()-1);
-            fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1));
-            castLen = castLen+1;
-        }
-        if(smer.get(1)){
-            System.out.println("stlacene doprava");
-            hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()+1);
-            fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget()));
-            castLen = castLen+1;
-        }
-        if(smer.get(0)){
+        else return 1;
+    }
 
-            System.out.println("stlacene dolava");
+    public void kontrolaPrekazky(){
+        if(m.jeStena(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())
+                || m.jePrekazka(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())){
+            zivotMinus();
+            resetHada();
+        }
+
+    }
+
+    public void kresli(Graphics g){
+        kontrolaPrekazky();
+        kontrolaOvocia();
+        if(smer.get(0)) {
+            //System.out.println("stlacene dolava");
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()-1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget()));
             castLen = castLen+1;
-        }
-    }
-    public void kresli(Graphics g){
-
-        if(smer.get(0)) {
             hlava.orientacia = 'l';
             hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
             fifoCastiHada.forEach((item) -> {
@@ -108,6 +128,10 @@ public class Had {
             });
         }
         if(smer.get(1)) {
+            //System.out.println("stlacene doprava");
+            hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()+1);
+            fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget()));
+            castLen = castLen+1;
             hlava.orientacia = 'r';
             hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
             fifoCastiHada.forEach((item) -> {
@@ -117,6 +141,10 @@ public class Had {
 
         }
         if(smer.get(2)) {
+            //System.out.println("stlacene hore");
+            hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()-1);
+            fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1));
+            castLen = castLen+1;
             hlava.orientacia = 'u';
             hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
             fifoCastiHada.forEach((item) -> {
@@ -124,6 +152,10 @@ public class Had {
             });
         }
         if(smer.get(3)) {
+            //System.out.println("stlacene dole");
+            hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()+1);
+            fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1));
+            castLen = castLen+1;
             hlava.orientacia = 'd';
             hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
             fifoCastiHada.forEach((item) -> {

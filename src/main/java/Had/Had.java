@@ -80,7 +80,7 @@ public class Had {
             else {
                 zivot--;
                 System.out.println("Stratil si zivot");
-                m.zrusOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget());
+                m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
             }
         }
@@ -107,13 +107,14 @@ public class Had {
     public void kontrolaPrekazky(){
         if(m.jeStena(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())
                 || m.jePrekazka(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())){
+            m.zrusVsetkyOvocia();
             zivotMinus();
             resetHada();
+            m.generujOvocia();
         }
 
     }
-
-    public void kresli(Graphics g){
+    public void pohybHada(){
         kontrolaPrekazky();
         kontrolaOvocia();
         if(smer.get(0)) {
@@ -122,10 +123,6 @@ public class Had {
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget()));
             castLen = castLen+1;
             hlava.orientacia = 'l';
-            hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
-            fifoCastiHada.forEach((item) -> {
-                item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
-            });
         }
         if(smer.get(1)) {
             //System.out.println("stlacene doprava");
@@ -133,12 +130,6 @@ public class Had {
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget()));
             castLen = castLen+1;
             hlava.orientacia = 'r';
-            hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
-            fifoCastiHada.forEach((item) -> {
-                    item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
-
-            });
-
         }
         if(smer.get(2)) {
             //System.out.println("stlacene hore");
@@ -146,10 +137,6 @@ public class Had {
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1));
             castLen = castLen+1;
             hlava.orientacia = 'u';
-            hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
-            fifoCastiHada.forEach((item) -> {
-                item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
-            });
         }
         if(smer.get(3)) {
             //System.out.println("stlacene dole");
@@ -157,10 +144,6 @@ public class Had {
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1));
             castLen = castLen+1;
             hlava.orientacia = 'd';
-            hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
-            fifoCastiHada.forEach((item) -> {
-                item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
-            });
         }
         /**
          * ak sa dlzka rovna poctu guliciek vyhod z radu prvy vlozeny
@@ -169,5 +152,11 @@ public class Had {
             fifoCastiHada.pop();
             castLen --;
         }
+    }
+    public void kresli(Graphics g){
+        hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
+        fifoCastiHada.forEach((item) -> {
+            item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
+        });
     }
 }

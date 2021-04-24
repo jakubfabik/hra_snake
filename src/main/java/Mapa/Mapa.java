@@ -7,10 +7,11 @@ import java.util.Random;
 public class Mapa {
 
     private MiestoNaMape[][] mapa;
-    private ArrayList<Ovocie> ovocia = new ArrayList<>();
+    private ArrayList<Ovocie> ovocia;
 
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
+        ovocia = new ArrayList<>();
         generujMapu();
         generujPrekazky();
         generujOvocia();
@@ -88,22 +89,50 @@ public class Mapa {
     }
 
 
-    public Boolean jeCesta(int x, int y){
+    public boolean jeCesta(int x, int y){
         if(mapa[x][y] instanceof Cesta){
             return true;
         }
         return false;
     }
-    public Boolean jeStena(int x, int y){
+    public boolean jeStena(int x, int y){
         if(mapa[x][y] instanceof Stena){
             return true;
         }
         return false;
     }
-    public Boolean jePrekazka(int x, int y){
+    public boolean jePrekazka(int x, int y){
         if(mapa[x][y] instanceof Prekazka){
             return true;
         }
         return false;
+    }
+
+    public int jeOvocie(int x, int y){
+        for (Ovocie item : ovocia) {
+            if (item.x == x && item.y == y) {
+                if(item instanceof Jablko){
+                    return 1;
+                }
+                if(item instanceof Hruska){
+                    return 2;
+                }
+                if (item instanceof Banan){
+                    return 3;
+                }
+                if (item instanceof Huba){
+                    return 4;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void zrusOvocie(int x, int y){
+        ovocia.forEach((item) -> {
+            if (item.x == x && item.y == y){
+                ovocia.remove(item);
+            }
+        });
     }
 }

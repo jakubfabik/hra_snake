@@ -2,16 +2,17 @@ package Mapa;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Mapa {
 
     private MiestoNaMape[][] mapa;
-    private ArrayList<Ovocie> ovocia;
+    private LinkedList<Ovocie> ovocia;
 
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
-        ovocia = new ArrayList<>();
+        ovocia = new LinkedList<>();
         generujMapu();
         generujPrekazky();
         generujOvocia();
@@ -53,8 +54,12 @@ public class Mapa {
 
         for (int i=0; i < pocetOvoci; i++) {
             int cislo = rand.nextInt(8);
-            int x = rand.nextInt(18)+1;
-            int y = rand.nextInt(18)+1;
+            int x;
+            int y;
+            do {
+                x = rand.nextInt(18) + 1;
+                y = rand.nextInt(18) + 1;
+            }while(mapa[x][y] instanceof Stena || mapa[x][y] instanceof Prekazka);
             switch (cislo) {
                 case 0:
                     ovocia.add(new Huba(x,y));
@@ -129,10 +134,13 @@ public class Mapa {
     }
 
     public void zrusOvocie(int x, int y){
-        ovocia.forEach((item) -> {
-            if (item.x == x && item.y == y){
-                ovocia.remove(item);
+        for(int i=0; i < ovocia.size(); i++){
+            if(ovocia.get(i).x == x && ovocia.get(i).y == y){
+                ovocia.remove(i);
             }
-        });
+        }
+    }
+    public void zrusVsetkyOvocia(){
+        ovocia = new LinkedList<>();
     }
 }

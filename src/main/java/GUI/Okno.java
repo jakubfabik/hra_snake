@@ -11,6 +11,7 @@ public class Okno extends JFrame {
     public Okno(){
         OknoFcia();
         OvladaciePrvky();
+        bocnyPanel();
     }
     Mapa m = new Mapa();
     Had h = new Had(m);
@@ -39,6 +40,12 @@ public class Okno extends JFrame {
         frame.add(panel2, BorderLayout.EAST);
     }
 
+    public void bocnyPanel(){
+        JLabel label2 = new JLabel();
+        label2.setText("<html><h1>Score: </h1></html>");
+        label2.setBounds(0, 20, 200, 50);
+        panel2.add(label2);
+    }
 
 
 

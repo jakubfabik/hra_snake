@@ -1,5 +1,4 @@
 package GUI;
-
 import Mapa.Mapa;
 
 import javax.swing.*;

@@ -104,48 +104,98 @@ public class Had {
         else return 1;
     }
 
-    public void kontrolaPrekazky(){
+    public void kontPrek(){
         if(m.jeStena(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())
                 || m.jePrekazka(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())){
-            m.zrusVsetkyOvocia();
-            zivotMinus();
-            resetHada();
-            m.generujOvocia();
+            smrtiacaProcedura();
         }
-
     }
+
+    private void smrtiacaProcedura(){
+        m.zrusVsetkyOvocia();
+        zivotMinus();
+        resetHada();
+        m.generujOvocia();
+    }
+
+    /**
+     * Kontrola prechodu cez sameho seba(telo hada)
+     */
+    public void kontPrechoduCSB(char smer){
+        if(smer == 'l') {
+            for (CastHada cast : fifoCastiHada) {
+                if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()-1
+                    && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()){
+                    System.out.println("vlavo do seba");
+                    smrtiacaProcedura();
+                }
+            }
+        }
+        if(smer == 'r') {
+            for (CastHada cast : fifoCastiHada) {
+                if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()+1
+                        && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()){
+                    System.out.println("vpravo doseba");
+                    smrtiacaProcedura();
+                }
+            }
+        }
+        if(smer == 'u') {
+            for (CastHada cast : fifoCastiHada) {
+                if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()
+                        && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()-1){
+                    System.out.println("hore do seba");
+                    smrtiacaProcedura();
+                }
+            }
+        }
+        if(smer == 'd') {
+            for (CastHada cast : fifoCastiHada) {
+                if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()+1
+                        && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()+1){
+                    System.out.println("dole do seba");
+                    smrtiacaProcedura();
+                }
+            }
+        }
+    }
+
     public void pohybHada(){
 
         kontrolaOvocia();
         if(smer.get(0)) {
             //System.out.println("stlacene dolava");
+            kontPrechoduCSB('l');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()-1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget()));
-            kontrolaPrekazky();
+            kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'l';
         }
         if(smer.get(1)) {
             //System.out.println("stlacene doprava");
+            kontPrechoduCSB('r');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()+1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget()));
-            kontrolaPrekazky();
+            kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'r';
         }
         if(smer.get(2)) {
             //System.out.println("stlacene hore");
+            kontPrechoduCSB('u');
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()-1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1));
-            kontrolaPrekazky();
+            kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'u';
         }
         if(smer.get(3)) {
+            kontPrechoduCSB('d');
             //System.out.println("stlacene dole");
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()+1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1));
-            kontrolaPrekazky();
+            kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'd';
         }

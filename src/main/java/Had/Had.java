@@ -115,12 +115,13 @@ public class Had {
 
     }
     public void pohybHada(){
-        kontrolaPrekazky();
+
         kontrolaOvocia();
         if(smer.get(0)) {
             //System.out.println("stlacene dolava");
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()-1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget()));
+            kontrolaPrekazky();
             castLen = castLen+1;
             hlava.orientacia = 'l';
         }
@@ -128,6 +129,7 @@ public class Had {
             //System.out.println("stlacene doprava");
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()+1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget()));
+            kontrolaPrekazky();
             castLen = castLen+1;
             hlava.orientacia = 'r';
         }
@@ -135,6 +137,7 @@ public class Had {
             //System.out.println("stlacene hore");
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()-1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1));
+            kontrolaPrekazky();
             castLen = castLen+1;
             hlava.orientacia = 'u';
         }
@@ -142,6 +145,7 @@ public class Had {
             //System.out.println("stlacene dole");
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()+1);
             fifoCastiHada.add(new HadGulicka(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1));
+            kontrolaPrekazky();
             castLen = castLen+1;
             hlava.orientacia = 'd';
         }

@@ -2,15 +2,15 @@ package GUI;
 
 import Had.Had;
 import Mapa.Mapa;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class Okno extends JFrame {
-
-    public Okno(){
-        OknoFcia();
+    String menoHraca;
+    public Okno(String meno){
+        this.menoHraca = meno;
         OvladaciePrvky();
+        OknoFcia();
     }
     Mapa m = new Mapa();
     Had h = new Had(m);
@@ -33,6 +33,11 @@ public class Okno extends JFrame {
         //panel2 layout
         panel2.setPreferredSize(new Dimension(300,600));
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS));
+
+        JLabel meno = new JLabel();
+        meno.setText("Meno:"+menoHraca);
+        panel2.add(meno);
+
         //gridlayovt rre rozlozenie prvkov
         frame.setLayout(new BorderLayout());
         frame.add(platno, BorderLayout.CENTER);

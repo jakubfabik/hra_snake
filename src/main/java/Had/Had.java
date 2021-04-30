@@ -213,4 +213,17 @@ public class Had {
             item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
         });
     }
+
+    /**
+     * Vracia zoznam castí hada aj s hlavou
+     */
+    public LinkedList<CastHada> hadieCasti(){
+        LinkedList casti = new LinkedList();
+        casti.add(this.hlava);
+        for(CastHada c : fifoCastiHada){
+            casti.add(c);
+        }
+        return casti;
+    }
+
 }

@@ -1,8 +1,5 @@
 package Had;
-
 import Mapa.*;
-
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,6 +11,7 @@ public class Had {
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private int zivot = 3;
     private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
+    private int score = 0;
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     int castLen = 0;
 

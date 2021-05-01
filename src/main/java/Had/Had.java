@@ -15,7 +15,7 @@ public class Had {
     private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
     private char pposmer; //predposledny smer
     private int zivot = 3;
-    private int dlzka = 4;  // realne 5 pocitame s nulou ta je hlava
+    private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     int castLen = 0;
 

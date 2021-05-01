@@ -27,7 +27,7 @@ public class Platno extends JPanel implements ActionListener {
     private boolean downDirection = false;
     private boolean inGame = true;
 
-    Timer timer = new Timer(800,this);
+    Timer timer = new Timer(500,this);
 
 
 

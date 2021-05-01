@@ -1,5 +1,6 @@
 package Had;
-import Mapa.*;
+import Mapa.Mapa;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,10 +12,9 @@ public class Had {
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private int zivot = 3;
     private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
-    private int score = 0;
+    int Score = 0;
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     int castLen = 0;
-
 
 
 
@@ -67,16 +67,38 @@ public class Had {
     public int dlzka(){return this.dlzka;}
     public int zivoty(){return this.zivot;}
 
+    public void scoreCounter(){
+
+
+    }
+
     public void kontrolaOvocia(){
         if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) == 0)){}
         else {
             if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) < 4)){
                 dlzka++;
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 1){
+                    Score+=10;
+                    System.out.println("Score: " + Score);
+                }
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 2){
+                    Score+=20;
+                    System.out.println("Score: " + Score);
+                }
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 3){
+                    Score+=50;
+                    System.out.println("Score: " + Score);
+                }
+
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
             }
             else {
                 zivot--;
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())== 4){
+                    Score = Score - 40;
+                    System.out.println("Score: " + Score);
+                }
                 System.out.println("Stratil si zivot");
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();

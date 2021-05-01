@@ -1,7 +1,7 @@
 package GUI;
 
-import Had.Had;
-import Mapa.Mapa;
+import Had.*;
+import Mapa.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,12 @@ public class Okno extends JFrame {
         OvladaciePrvky();
         bocnyPanel();
     }
-
+    Jablko jablko;
+    Hruska hruska;
+    Banan banan;
+    Huba huba;
+    int Score = 0;
+    Had hlava;
     Mapa m = new Mapa();
     Had h = new Had(m);
     JFrame frame = new JFrame("Snake");
@@ -40,6 +45,9 @@ public class Okno extends JFrame {
         frame.add(platno, BorderLayout.CENTER);
         frame.add(panel2, BorderLayout.EAST);
     }
+
+
+
 
     public void bocnyPanel(){
         JLabel label2 = new JLabel();

@@ -13,11 +13,6 @@ import java.awt.event.KeyEvent;
 public class Platno extends JPanel implements ActionListener {
     Mapa m;
     Had h;
-    Jablko jablko;
-    Hruska hruska;
-    Banan banan;
-    Huba huba;
-    int Score = 0;
 
     public Platno(Mapa m, Had h){
         timer.start();

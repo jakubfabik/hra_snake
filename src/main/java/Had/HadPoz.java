@@ -1,8 +1,5 @@
 package Had;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class HadPoz {
     private int x, y;
 
@@ -11,7 +8,7 @@ public class HadPoz {
         this.y = y;
     }
 
-    int CastHadaXget(){return this.x;}
+    public int CastHadaXget(){return this.x;}
     int CastHadaYget(){return this.y;}
     void CastHadaXset(int x){this.x = x;}
     void CastHadaYset(int y){this.y = y;}

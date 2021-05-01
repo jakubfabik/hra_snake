@@ -8,8 +8,8 @@ import java.net.URL;
 
 public class HadTelo extends CastHada {
 
-    public HadTelo(int x, int y) {
-        super(x, y);
+    public HadTelo(int x, int y, char o) {
+        super(x, y, o);
     }
 
     @Override

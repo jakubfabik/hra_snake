@@ -9,7 +9,7 @@ import java.net.URL;
 public class HadGulicka extends CastHada {
 
     public HadGulicka(int x, int y) {
-        super(x, y);
+        super(x, y,'d');
     }
 
     @Override

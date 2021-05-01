@@ -8,8 +8,8 @@ public class HadHlava extends CastHada {
 
 
 
-    public HadHlava(int x, int y) {
-        super(x, y);
+    public HadHlava(int x, int y, char o) {
+        super(x, y, o);
     }
 
     @Override

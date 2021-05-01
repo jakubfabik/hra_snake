@@ -62,7 +62,7 @@ public class Platno extends JPanel implements ActionListener {
                 upDirection = false;
                 downDirection = false;
                 h.dolava();
-                System.out.println("left");
+
             }
 
             if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
@@ -70,7 +70,7 @@ public class Platno extends JPanel implements ActionListener {
                 upDirection = false;
                 downDirection = false;
                 h.doprava();
-                System.out.println("right");
+
             }
 
             if ((key == KeyEvent.VK_UP) && (!downDirection)) {
@@ -78,7 +78,7 @@ public class Platno extends JPanel implements ActionListener {
                 rightDirection = false;
                 leftDirection = false;
                 h.hore();
-                System.out.println("up");
+
             }
 
             if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
@@ -87,7 +87,6 @@ public class Platno extends JPanel implements ActionListener {
                 h.dole();
                 leftDirection = false;
 
-                System.out.println("down");
             }
 
         }

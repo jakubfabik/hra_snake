@@ -11,6 +11,7 @@ import java.util.LinkedList;
 public class Had {
     private HadHlava hlava;
     private Mapa m;
+    int Score = 0;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private int zivot = 3;
     private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
@@ -74,17 +75,35 @@ public class Had {
         else {
             if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) < 4)){
                 dlzka++;
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 1){
+                    Score+=10;
+                    System.out.println("Score: " + Score);
+                }
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 2){
+                    Score+=20;
+                    System.out.println("Score: " + Score);
+                }
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 3){
+                    Score+=50;
+                    System.out.println("Score: " + Score);
+                }
+
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
             }
             else {
                 zivot--;
+                if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())== 4){
+                    Score = Score - 40;
+                    System.out.println("Score: " + Score);
+                }
                 System.out.println("Stratil si zivot");
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
             }
         }
     }
+
     public void resetHada(){
         this.hlava = new HadHlava(10,10);
         this.dlzka = 1;

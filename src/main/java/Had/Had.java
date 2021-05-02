@@ -80,12 +80,14 @@ public class Had {
                 dlzka++;
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
+                zrusOvociaHad();
             }
             else {
                 zivot--;
                 System.out.println("Stratil si zivot");
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
+                zrusOvociaHad();
             }
         }
     }
@@ -136,6 +138,7 @@ public class Had {
         zivotMinus();
         resetHada();
         m.generujOvocia();
+        zrusOvociaHad();
     }
 
     /**
@@ -287,6 +290,14 @@ public class Had {
             casti.add(c);
         }
         return casti;
+    }
+
+    public void zrusOvociaHad(){
+        for(CastHada c : fifoCastiHada){
+            if(m.jeOvocie(c.poz.CastHadaXget(),c.poz.CastHadaYget()) > 0){
+                m.zrusOvocie(c.poz.CastHadaXget(),c.poz.CastHadaYget());
+            }
+        }
     }
 
 }

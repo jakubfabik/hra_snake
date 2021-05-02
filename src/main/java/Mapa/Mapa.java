@@ -1,7 +1,6 @@
 package Mapa;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -50,7 +49,7 @@ public class Mapa {
 
     public void generujOvocia(){
         Random rand = new Random();
-        int pocetOvoci = rand.nextInt(4)+1;
+        int pocetOvoci = rand.nextInt(3)+1;
 
         for (int i=0; i < pocetOvoci; i++) {
             int cislo = rand.nextInt(8);
@@ -78,6 +77,7 @@ public class Mapa {
             }
         }
     }
+
     public void kresliOvocia(Graphics g){
         ovocia.forEach((item) -> {
             item.obr(g, item.x, item.y);

@@ -1,7 +1,7 @@
 package GUI;
 
 import Had.Had;
-import Mapa.*;
+import Mapa.Mapa;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,6 @@ import java.awt.event.KeyEvent;
 public class Platno extends JPanel implements ActionListener {
     Mapa m;
     Had h;
-
     public Platno(Mapa m, Had h){
         timer.start();
         addKeyListener(new TAdapter());

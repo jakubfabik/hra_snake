@@ -1,7 +1,7 @@
 package GUI;
 
-import Had.*;
-import Mapa.*;
+import Had.Had;
+import Mapa.Mapa;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,12 +13,6 @@ public class Okno extends JFrame {
         OvladaciePrvky();
         bocnyPanel();
     }
-    Jablko jablko;
-    Hruska hruska;
-    Banan banan;
-    Huba huba;
-    int Score = 0;
-    Had hlava;
     Mapa m = new Mapa();
     Had h = new Had(m);
     JFrame frame = new JFrame("Snake");
@@ -38,16 +32,13 @@ public class Okno extends JFrame {
     public void OvladaciePrvky(){
         platno.setPreferredSize(new Dimension(platno.getWidth(),platno.getHeight()));
         //panel2 layout
-        panel2.setPreferredSize(new Dimension(300,700));
+        panel2.setPreferredSize(new Dimension(300,600));
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS));
         //gridlayovt rre rozlozenie prvkov
         frame.setLayout(new BorderLayout());
         frame.add(platno, BorderLayout.CENTER);
         frame.add(panel2, BorderLayout.EAST);
     }
-
-
-
 
     public void bocnyPanel(){
         JLabel label2 = new JLabel();
@@ -79,6 +70,7 @@ public class Okno extends JFrame {
         panel2.add(pohyb2);
         panel2.add(score);
     }
+
 
 
 

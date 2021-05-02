@@ -1,5 +1,7 @@
 package Had;
-import Mapa.Mapa;
+
+import Mapa.*;
+
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,12 +11,13 @@ import java.util.LinkedList;
 public class Had {
     private HadHlava hlava;
     private Mapa m;
+    int Score = 0;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private int zivot = 3;
     private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
-    int Score = 0;
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     int castLen = 0;
+
 
 
 
@@ -67,11 +70,6 @@ public class Had {
     public int dlzka(){return this.dlzka;}
     public int zivoty(){return this.zivot;}
 
-    public void scoreCounter(){
-
-
-    }
-
     public void kontrolaOvocia(){
         if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) == 0)){}
         else {
@@ -105,6 +103,7 @@ public class Had {
             }
         }
     }
+
     public void resetHada(){
         this.hlava = new HadHlava(10,10);
         this.dlzka = 1;

@@ -12,9 +12,8 @@ public class Mapa {
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
         ovocia = new LinkedList<>();
-        generujMapu();
-        generujPrekazky();
-        generujOvocia();
+        nahodnaMapa();
+        otvorPortal();
     }
 
     private void generujMapu(){
@@ -45,6 +44,7 @@ public class Mapa {
                 }
             }
         }
+        spawn();
     }
 
     public void generujOvocia(){
@@ -58,7 +58,7 @@ public class Mapa {
             do {
                 x = rand.nextInt(18) + 1;
                 y = rand.nextInt(18) + 1;
-            }while(mapa[x][y] instanceof Stena || mapa[x][y] instanceof Prekazka);
+            }while(mapa[x][y] instanceof Stena || mapa[x][y] instanceof Prekazka || mapa[x][y] instanceof Kamen);
             switch (cislo) {
                 case 0:
                     ovocia.add(new Huba(x,y));
@@ -78,6 +78,25 @@ public class Mapa {
         }
     }
 
+    private void spawn(){
+        mapa[10][10] = new Kamen();
+        mapa[10][11] = new Kamen();
+        mapa[10][9] = new Kamen();
+        mapa[9][9] = new Kamen();
+        mapa[9][10] = new Kamen();
+        mapa[9][11] = new Kamen();
+        mapa[11][9] = new Kamen();
+        mapa[11][10] = new Kamen();
+        mapa[11][10] = new Kamen();
+        mapa[11][11] = new Kamen();
+    }
+
+    private void nahodnaMapa(){
+        generujMapu();
+        generujPrekazky();
+        generujOvocia();
+    }
+
     public void kresliOvocia(Graphics g){
         ovocia.forEach((item) -> {
             item.obr(g, item.x, item.y);
@@ -93,6 +112,9 @@ public class Mapa {
         }
     }
 
+    public void otvorPortal(){
+        mapa[10][10] = new Portal();
+    }
 
     public boolean jeCesta(int x, int y){
         if(mapa[x][y] instanceof Cesta){

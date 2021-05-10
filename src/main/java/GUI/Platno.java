@@ -22,7 +22,7 @@ public class Platno extends JPanel implements ActionListener {
     }
 
     private boolean leftDirection = false;
-    private boolean rightDirection = true;
+    private boolean rightDirection = false;
     private boolean upDirection = false;
     private boolean downDirection = false;
     private boolean inGame = true;

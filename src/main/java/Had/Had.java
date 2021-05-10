@@ -113,7 +113,8 @@ public class Had {
     public void resetHada(){
         this.hlava = new HadHlava(10,10, 'd');
         this.dlzka = 1;
-        System.out.println("Stratil si zivot");
+        kontrolaKoncaHry();
+        System.out.println("Stratil si zivot, zostava " + this.zivot);
         while(castLen !=0){
             fifoCastiHada.pop();
             castLen --;
@@ -121,8 +122,9 @@ public class Had {
     }
 
     public int kontrolaKoncaHry(){
-        if(zivot < 1) {
-            System.out.println("Had zomrel!!!");
+        if(zivot < 0) {
+            System.out.println("Koniec hry had zomrel!!!");
+            System.exit(0);
             zivot--;
             return 0;
         }
@@ -211,11 +213,11 @@ public class Had {
             if(kontKopieSmeru() == 1){
                 if(hlava.orientacia == 'd'){
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'h'));
-                    System.out.println("otocil sa dolava ZMENA!!!");
+                    //System.out.println("otocil sa dolava ZMENA!!!");
                 }
                 else{
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'l'));
-                    System.out.println("otocil sa dolava");
+                    //System.out.println("otocil sa dolava");
                 }
                 kopiaSmeru = kopirujSmer();
             }
@@ -231,11 +233,11 @@ public class Had {
             if(kontKopieSmeru() == 1){
                 if(hlava.orientacia =='u'){
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget(),'g'));
-                    System.out.println("otocil sa do prava ZMENA!!!");
+                    //System.out.println("otocil sa do prava ZMENA!!!");
                 }
                 else{
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget(),'r'));
-                    System.out.println("otocil sa doprava");
+                    //System.out.println("otocil sa doprava");
                 }
                 kopiaSmeru = kopirujSmer();
             }
@@ -251,11 +253,11 @@ public class Had {
             if(kontKopieSmeru() == 1){
                 if(hlava.orientacia == 'l'){
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1,'f'));
-                    System.out.println("otocil sa hore ZMENA!!!");
+                    //System.out.println("otocil sa hore ZMENA!!!");
                 }
                 else{
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1,'u'));
-                    System.out.println("otocil sa hore");
+                    //System.out.println("otocil sa hore");
                 }
                 kopiaSmeru = kopirujSmer();
             }
@@ -271,11 +273,11 @@ public class Had {
             if(kontKopieSmeru() == 1){
                 if(hlava.orientacia == 'r'){
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1,'e'));
-                    System.out.println("otocil sa dole ZMENA!!!");
+                    //System.out.println("otocil sa dole ZMENA!!!");
                 }
                 else{
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1,'d'));
-                    System.out.println("otocil sa dole");
+                    //System.out.println("otocil sa dole");
                 }
                 kopiaSmeru = kopirujSmer();
             }

@@ -10,6 +10,8 @@ public class UvodnaObrazovka extends JFrame{
     JFrame frame = new JFrame("Snake");
     static JSpinner s1, s2, s3;
     String meno;
+    static Okno okno;
+
     public UvodnaObrazovka(){
         OvladaciePrvky();
         OknoFcia();
@@ -48,7 +50,7 @@ public class UvodnaObrazovka extends JFrame{
                 frame.dispose();
                 meno = s1.getValue() + "" + s2.getValue() + "" + s3.getValue();
                 System.out.println(meno);
-                Okno okno = new Okno(meno);
+                okno = new Okno(meno);
             }
         });
 

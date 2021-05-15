@@ -88,9 +88,7 @@ public class Platno extends JPanel implements ActionListener {
                 leftDirection = false;
 
             }
-
         }
-
     }
 
     @Override

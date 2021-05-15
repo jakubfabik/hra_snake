@@ -7,9 +7,11 @@ import java.awt.*;
 
 public class Okno extends JFrame {
     String menoHraca;
+
     public Okno(String meno){
         this.menoHraca = meno;
         OvladaciePrvky();
+        bocnyPanel();
         OknoFcia();
     }
     Mapa m = new Mapa();
@@ -24,7 +26,7 @@ public class Okno extends JFrame {
         //nastavenia framu
         frame.setSize(900, 630);
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
 
@@ -75,9 +77,7 @@ public class Okno extends JFrame {
         panel2.add(score);
     }
 
-
-
-
-
-
+    public void zavriHracieOkno(){
+        frame.dispose();
+    }
 }

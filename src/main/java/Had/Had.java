@@ -1,8 +1,7 @@
 package Had;
 
+import GUI.KoniecHryObrazovka;
 import Mapa.*;
-
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,7 +10,7 @@ import java.util.LinkedList;
 public class Had {
     private HadHlava hlava;
     private Mapa m;
-    int Score = 0;
+    public int Score = 0;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
     private char pposmer; //predposledny smer
@@ -19,9 +18,6 @@ public class Had {
     private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     int castLen = 0;
-
-
-
 
     public Had(Mapa mapa){
         for(int i = 0;i<3;i++){smer.add(false);}
@@ -97,12 +93,13 @@ public class Had {
                 zrusOvociaHad();
             }
             else {
-                zivot--;
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())== 4){
-                    Score = Score - 40;
-                    System.out.println("Score: " + Score);
+                    if(Score-40 < 0){
+                        Score = 0;
+                    }else{
+                        Score = Score - 40;
+                    }
                 }
-                System.out.println("Stratil si zivot");
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
                 m.generujOvocia();
                 zrusOvociaHad();
@@ -121,14 +118,14 @@ public class Had {
         }
     }
 
-    public int kontrolaKoncaHry(){
+    public boolean kontrolaKoncaHry(){
         if(zivot < 0) {
             System.out.println("Koniec hry had zomrel!!!");
-            System.exit(0);
             zivot--;
-            return 0;
+            KoniecHryObrazovka obr = new KoniecHryObrazovka(Score);
+            return true;
         }
-        else return 1;
+        return false;
     }
 
     public void kontPrek(){
@@ -320,5 +317,4 @@ public class Had {
             }
         }
     }
-
 }

@@ -93,7 +93,11 @@ public class Platno extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        h.pohybHada();
-        repaint();
+        if(h.zivoty() > -1) {
+            h.pohybHada();
+            repaint();
+        }
+        else h.koniecHry();
+
     }
 }

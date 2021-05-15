@@ -13,10 +13,10 @@ public class Had {
     public int Score = 0;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
-    private char pposmer; //predposledny smer
     private int zivot = 3;
     private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
+    private boolean koniec = false;
     int castLen = 0;
 
     public Had(Mapa mapa){
@@ -118,14 +118,20 @@ public class Had {
         }
     }
 
+
     public boolean kontrolaKoncaHry(){
         if(zivot < 0) {
             System.out.println("Koniec hry had zomrel!!!");
             zivot--;
-            KoniecHryObrazovka obr = new KoniecHryObrazovka(Score);
             return true;
         }
         return false;
+    }
+
+    public void koniecHry(){
+        if(!koniec) {KoniecHryObrazovka obr = new KoniecHryObrazovka(Score);
+            this.koniec = true;
+        }
     }
 
     public void kontPrek(){
@@ -151,7 +157,7 @@ public class Had {
     return 0;
     }
 
-    private void smrtiacaProcedura(){
+    public void smrtiacaProcedura(){
         m.zrusVsetkyOvocia();
         zivotMinus();
         resetHada();

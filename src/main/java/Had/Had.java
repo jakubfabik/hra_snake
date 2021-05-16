@@ -10,7 +10,9 @@ import java.util.LinkedList;
 public class Had {
     private HadHlava hlava;
     private Mapa m;
+    private int[] skpp = {1,30,80,100,130,200,300,1000}; //skore pre portal, index 0 je poradie skora, od 1 su pozadovane skora
     private int skore = 0;
+    private boolean zomrel = false;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
     private int zivot = 3;
@@ -22,7 +24,6 @@ public class Had {
     public Had(Mapa mapa){
         for(int i = 0;i<3;i++){smer.add(false);}
         smer.add(true); //zaciatocny smer je dole
-        //todo zautomatizovat
         kopiaSmeru.add(false);kopiaSmeru.add(false);kopiaSmeru.add(false);kopiaSmeru.add(true);
         this.m = mapa;
         this.hlava = new HadHlava(10,10, 'd');
@@ -116,6 +117,9 @@ public class Had {
             fifoCastiHada.pop();
             castLen --;
         }
+        zomrel = true;
+
+
     }
 
 
@@ -211,8 +215,19 @@ public class Had {
         }
     }
 
+    private void kontrolaPoralu(){
+        if(m.jePortal(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget())){
+            m.kresliPortal();
+        }
+    }
+
     public void pohybHada(){
+        if(getSkore() >= skpp[skpp[0]]){
+            m.otvorPortal();        //zobraz portal
+            skpp[0]++;              //zvisi limit na dosiahnutie otvorenia dalsieho
+        }
         kontrolaOvocia();
+        kontrolaPoralu();
         if(smer.get(0)) {
             //System.out.println("stlacene dolava");
             kontPrechoduCSB('l');
@@ -300,6 +315,10 @@ public class Had {
             fifoCastiHada.pop();
             castLen --;
         }
+        if(zomrel == true){     // FIX bez tohto posledna cast hada zostane po smrti chvilu na ploche
+            dlzka++;
+            zomrel = false;
+        }
     }
 
     private CastHada koniecHada(CastHada item){
@@ -320,8 +339,8 @@ public class Had {
             if(c == 1){   //posledny clanok v hadovi
                 //System.out.println(item.getClass().getName());
                 koniecHada(item);
-                CastHada gulicka = koniecHada(item);
-                gulicka.obr(g, gulicka.poz.CastHadaXget(), gulicka.poz.CastHadaYget(), item.orientaciaCasti());
+                CastHada koniec = koniecHada(item);
+                koniec.obr(g, koniec.poz.CastHadaXget(), koniec.poz.CastHadaYget(), item.orientaciaCasti());
             }
             else {
                 item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());

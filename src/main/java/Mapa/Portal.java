@@ -15,7 +15,6 @@ public class Portal extends MiestoNaMape{
     URL url3 = getClass().getResource("portal/portal3.png");
     Image img3 = new ImageIcon(url3).getImage();
 
-    @Override
     public void obr(Graphics g, int i, int j) {
         Random rand = new Random();
         int cislo = rand.nextInt(3);
@@ -31,4 +30,5 @@ public class Portal extends MiestoNaMape{
                 break;
         }
     }
+
 }

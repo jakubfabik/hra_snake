@@ -13,7 +13,16 @@ public class Mapa {
         this.mapa = new MiestoNaMape[20][20];
         ovocia = new LinkedList<>();
         nahodnaMapa();
-        otvorPortal();
+
+    }
+
+    public void kresliPortal() {
+        this.mapa = new MiestoNaMape[20][20];
+        ovocia = new LinkedList<>();
+        generujMapuPortalu();
+        generujPrekazky();
+        generujOvocia();
+        //otvorPortal();
     }
 
     private void generujMapu(){
@@ -28,6 +37,20 @@ public class Mapa {
             }
         }
     }
+    private void generujMapuPortalu(){
+        int velkost = 20;
+        for (int j=0; j<velkost; j++){
+            for (int i=0; i<velkost; i++){
+                if(i==0 || j==0 || i==velkost-1 || j==velkost-1) {
+                    mapa[i][j] = new Stena();
+                }else{
+                    mapa[i][j] = new Cesta();
+                    mapa[i][j].typCesty = 'p';
+                }
+            }
+        }
+    }
+
 
     private void generujPrekazky(){
         int velkost = 20;
@@ -79,19 +102,19 @@ public class Mapa {
     }
 
     private void spawn(){
-        mapa[10][10] = new Kamen();
-        mapa[10][11] = new Kamen();
-        mapa[10][9] = new Kamen();
-        mapa[9][9] = new Kamen();
-        mapa[9][10] = new Kamen();
-        mapa[9][11] = new Kamen();
-        mapa[11][9] = new Kamen();
-        mapa[11][10] = new Kamen();
-        mapa[11][10] = new Kamen();
-        mapa[11][11] = new Kamen();
+        mapa[10][10] = new Cesta();
+        mapa[10][11] = new Cesta();
+        mapa[10][9] = new Cesta();
+        mapa[9][9] = new Cesta();
+        mapa[9][10] = new Cesta();
+        mapa[9][11] = new Cesta();
+        mapa[11][9] = new Cesta();
+        mapa[11][10] = new Cesta();
+        mapa[11][10] = new Cesta();
+        mapa[11][11] = new Cesta();
     }
 
-    private void nahodnaMapa(){
+    public void nahodnaMapa(){
         generujMapu();
         generujPrekazky();
         generujOvocia();
@@ -113,9 +136,14 @@ public class Mapa {
     }
 
     public void otvorPortal(){
-        mapa[10][10] = new Portal();
+        mapa[3][3] = new Portal();
     }
-
+    public boolean jePortal(int x, int y){
+        if(mapa[x][y] instanceof Portal){
+            return true;
+        }
+        return false;
+    }
     public boolean jeCesta(int x, int y){
         if(mapa[x][y] instanceof Cesta){
             return true;

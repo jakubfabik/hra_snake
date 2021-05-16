@@ -1,7 +1,6 @@
 package Mapa;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -13,9 +12,17 @@ public class Mapa {
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
         ovocia = new LinkedList<>();
-        generujMapu();
+        nahodnaMapa();
+
+    }
+
+    public void kresliPortal() {
+        this.mapa = new MiestoNaMape[20][20];
+        ovocia = new LinkedList<>();
+        generujMapuPortalu();
         generujPrekazky();
         generujOvocia();
+        //otvorPortal();
     }
 
     private void generujMapu(){
@@ -30,6 +37,20 @@ public class Mapa {
             }
         }
     }
+    private void generujMapuPortalu(){
+        int velkost = 20;
+        for (int j=0; j<velkost; j++){
+            for (int i=0; i<velkost; i++){
+                if(i==0 || j==0 || i==velkost-1 || j==velkost-1) {
+                    mapa[i][j] = new Stena();
+                }else{
+                    mapa[i][j] = new Cesta();
+                    mapa[i][j].typCesty = 'p';
+                }
+            }
+        }
+    }
+
 
     private void generujPrekazky(){
         int velkost = 20;
@@ -46,11 +67,12 @@ public class Mapa {
                 }
             }
         }
+        spawn();
     }
 
     public void generujOvocia(){
         Random rand = new Random();
-        int pocetOvoci = rand.nextInt(4)+1;
+        int pocetOvoci = rand.nextInt(3)+1;
 
         for (int i=0; i < pocetOvoci; i++) {
             int cislo = rand.nextInt(8);
@@ -59,7 +81,7 @@ public class Mapa {
             do {
                 x = rand.nextInt(18) + 1;
                 y = rand.nextInt(18) + 1;
-            }while(mapa[x][y] instanceof Stena || mapa[x][y] instanceof Prekazka);
+            }while(mapa[x][y] instanceof Stena || mapa[x][y] instanceof Prekazka || mapa[x][y] instanceof Kamen);
             switch (cislo) {
                 case 0:
                     ovocia.add(new Huba(x,y));
@@ -78,6 +100,26 @@ public class Mapa {
             }
         }
     }
+
+    private void spawn(){
+        mapa[10][10] = new Cesta();
+        mapa[10][11] = new Cesta();
+        mapa[10][9] = new Cesta();
+        mapa[9][9] = new Cesta();
+        mapa[9][10] = new Cesta();
+        mapa[9][11] = new Cesta();
+        mapa[11][9] = new Cesta();
+        mapa[11][10] = new Cesta();
+        mapa[11][10] = new Cesta();
+        mapa[11][11] = new Cesta();
+    }
+
+    public void nahodnaMapa(){
+        generujMapu();
+        generujPrekazky();
+        generujOvocia();
+    }
+
     public void kresliOvocia(Graphics g){
         ovocia.forEach((item) -> {
             item.obr(g, item.x, item.y);
@@ -93,7 +135,15 @@ public class Mapa {
         }
     }
 
-
+    public void otvorPortal(){
+        mapa[3][3] = new Portal();
+    }
+    public boolean jePortal(int x, int y){
+        if(mapa[x][y] instanceof Portal){
+            return true;
+        }
+        return false;
+    }
     public boolean jeCesta(int x, int y){
         if(mapa[x][y] instanceof Cesta){
             return true;

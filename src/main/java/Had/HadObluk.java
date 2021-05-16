@@ -10,7 +10,7 @@ public class HadObluk extends CastHada {
 
 
     public HadObluk(int x, int y, char o) {
-        super(x, y);
+        super(x, y, o);
         super.orientacia = o;
     }
 

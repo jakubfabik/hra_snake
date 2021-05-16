@@ -4,12 +4,16 @@ import Had.Had;
 import Mapa.Mapa;
 import javax.swing.*;
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Okno extends JFrame {
     String menoHraca;
+    Timer casovac;
 
     public Okno(String meno){
         this.menoHraca = meno;
+        this.casovac = new Timer();
         OvladaciePrvky();
         bocnyPanel();
         OknoFcia();
@@ -36,10 +40,6 @@ public class Okno extends JFrame {
         panel2.setPreferredSize(new Dimension(300,600));
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.PAGE_AXIS));
 
-        JLabel meno = new JLabel();
-        meno.setText("Meno:"+menoHraca);
-        panel2.add(meno);
-
         //gridlayovt rre rozlozenie prvkov
         frame.setLayout(new BorderLayout());
         frame.add(platno, BorderLayout.CENTER);
@@ -47,6 +47,7 @@ public class Okno extends JFrame {
     }
 
     public void bocnyPanel(){
+        JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
         JLabel label3 = new JLabel();
         JLabel label4 = new JLabel();
@@ -56,16 +57,23 @@ public class Okno extends JFrame {
         JLabel pohybNadpis = new JLabel();
         JLabel pohyb = new JLabel();
         JLabel pohyb2 = new JLabel();
+        label1.setText("<html><h1>Meno: " + menoHraca + "</h1></html>");
         label2.setText("<html><h1>Legenda </h1></html>");
-        label3.setText("Jablko: +10bodov");
-        label4.setText("Hruška: +20bodov");
+        label3.setText("Jablko: +10 bodov");
+        label4.setText("Hruška: +20 bodov");
         label5.setText("Banán: +50 bodov");
-        label6.setText("Huba: -40bodov");
+        label6.setText("Huba: -40 bodov");
         pohybNadpis.setText("<html><h2>Pohyb hada šípkami</h2></html>");
         pohyb.setText("↑ hore, ↓ dole");
         pohyb2.setText("→ do prava, ← do lava");
-        score.setText("<html><h2>Score:" + h.getSkore() + "</h2></html>");
+        casovac.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                score.setText("<html><h2>Score:" + h.getSkore() + "</h2></html>");
+            }
+        }, 0, 500);
         //label2.setBounds(0, 20, 200, 50);
+        panel2.add(label1);
         panel2.add(label2);
         panel2.add(label3);
         panel2.add(label4);
@@ -79,5 +87,6 @@ public class Okno extends JFrame {
 
     public void zavriHracieOkno(){
         frame.dispose();
+        casovac.cancel();
     }
 }

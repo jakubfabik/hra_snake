@@ -64,7 +64,7 @@ public class Okno extends JFrame {
         pohybNadpis.setText("<html><h2>Pohyb hada šípkami</h2></html>");
         pohyb.setText("↑ hore, ↓ dole");
         pohyb2.setText("→ do prava, ← do lava");
-        score.setText("<html><h2>Score: </h2></html>");
+        score.setText("<html><h2>Score:" + h.getSkore() + "</h2></html>");
         //label2.setBounds(0, 20, 200, 50);
         panel2.add(label2);
         panel2.add(label3);

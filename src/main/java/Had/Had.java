@@ -10,11 +10,11 @@ import java.util.LinkedList;
 public class Had {
     private HadHlava hlava;
     private Mapa m;
-    public int Score = 0;
+    private int skore = 0;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
     private int zivot = 3;
-    private int dlzka = 1;  // realne 5 pocitame s nulou ta je hlava
+    private int dlzka = 2;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
     int castLen = 0;
@@ -76,16 +76,16 @@ public class Had {
             if((m.jeOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()) < 4)){
                 dlzka++;
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 1){
-                    Score+=10;
-                    System.out.println("Score: " + Score);
+                    skore+=10;
+                    System.out.println("Score: " + skore);
                 }
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 2){
-                    Score+=20;
-                    System.out.println("Score: " + Score);
+                    skore+=20;
+                    System.out.println("Score: " + skore);
                 }
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 3){
-                    Score+=50;
-                    System.out.println("Score: " + Score);
+                    skore+=50;
+                    System.out.println("Score: " + skore);
                 }
 
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
@@ -94,10 +94,10 @@ public class Had {
             }
             else {
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())== 4){
-                    if(Score-40 < 0){
-                        Score = 0;
+                    if(skore-40 < 0){
+                        skore = 0;
                     }else{
-                        Score = Score - 40;
+                        skore = skore - 40;
                     }
                 }
                 m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
@@ -129,7 +129,7 @@ public class Had {
     }
 
     public void koniecHry(){
-        if(!koniec) {KoniecHryObrazovka obr = new KoniecHryObrazovka(Score);
+        if(!koniec) {KoniecHryObrazovka obr = new KoniecHryObrazovka(skore);
             this.koniec = true;
         }
     }
@@ -155,6 +155,10 @@ public class Had {
             }
         }
     return 0;
+    }
+
+    public int getSkore(){
+        return this.skore;
     }
 
     public void smrtiacaProcedura(){
@@ -297,11 +301,32 @@ public class Had {
             castLen --;
         }
     }
+
+    private CastHada koniecHada(CastHada item){
+        if(item instanceof HadTelo){
+            return new HadTeloKoniec(item.poz.CastHadaXget(), item.poz.CastHadaYget(),item.orientaciaCasti());
+        }
+        else if(item instanceof HadObluk){
+            return new HadOblukKoniec(item.poz.CastHadaXget(), item.poz.CastHadaYget(),item.orientaciaCasti());
+        }
+        else return item;
+    }
+
     public void kresli(Graphics g){
+        int c = 0;
         hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
-        fifoCastiHada.forEach((item) -> {
-            item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
-        });
+        for (CastHada item : fifoCastiHada) {
+            c++;
+            if(c == 1){   //posledny clanok v hadovi
+                //System.out.println(item.getClass().getName());
+                koniecHada(item);
+                CastHada gulicka = koniecHada(item);
+                gulicka.obr(g, gulicka.poz.CastHadaXget(), gulicka.poz.CastHadaYget(), item.orientaciaCasti());
+            }
+            else {
+                item.obr(g, item.poz.CastHadaXget(), item.poz.CastHadaYget(), item.orientaciaCasti());
+            }
+        }
     }
 
     /**

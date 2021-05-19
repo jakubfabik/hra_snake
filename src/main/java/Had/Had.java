@@ -22,9 +22,12 @@ public class Had {
     int castLen = 0;
 
     public Had(Mapa mapa){
-        for(int i = 0;i<3;i++){smer.add(false);}
+        for(int i = 0;i<3;i++){
+            smer.add(false);
+            kopiaSmeru.add(false);
+        } //smer 0,1,2 nastavuje na false
         smer.add(true); //zaciatocny smer je dole
-        kopiaSmeru.add(false);kopiaSmeru.add(false);kopiaSmeru.add(false);kopiaSmeru.add(true);
+        kopiaSmeru.add(true);
         this.m = mapa;
         this.hlava = new HadHlava(10,10, 'd');
         //poleHad.add(new HadHlava(10,10));
@@ -112,14 +115,11 @@ public class Had {
         this.hlava = new HadHlava(10,10, 'd');
         this.dlzka = 1;
         kontrolaKoncaHry();
-        System.out.println("Stratil si zivot, zostava " + this.zivot);
         while(castLen !=0){
             fifoCastiHada.pop();
             castLen --;
         }
         zomrel = true;
-
-
     }
 
 
@@ -170,6 +170,7 @@ public class Had {
         zivotMinus();
         resetHada();
         m.generujOvocia();
+        m.spawn();
         zrusOvociaHad();
     }
 
@@ -216,15 +217,19 @@ public class Had {
     }
 
     private void kontrolaPoralu(){
+        int dlzka = this.dlzka;
         if(m.jePortal(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget())){
             m.kresliPortal();
+            resetHada();
+            this.dlzka = dlzka;
         }
     }
+
 
     public void pohybHada(){
         if(getSkore() >= skpp[skpp[0]]){
             m.otvorPortal();        //zobraz portal
-            skpp[0]++;              //zvisi limit na dosiahnutie otvorenia dalsieho
+            skpp[0]++;              //zvysi limit na dosiahnutie otvorenia dalsieho
         }
         kontrolaOvocia();
         kontrolaPoralu();

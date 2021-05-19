@@ -8,6 +8,9 @@ public class Mapa {
 
     private MiestoNaMape[][] mapa;
     private LinkedList<Ovocie> ovocia;
+    private int velkost = 20;
+    private int pozPortX = 9;
+    private int pozPortY = 9;
 
     public Mapa() {
         this.mapa = new MiestoNaMape[20][20];
@@ -22,11 +25,11 @@ public class Mapa {
         generujMapuPortalu();
         generujPrekazky();
         generujOvocia();
+        mapa[10][10] = new Diera();     //diera zkadial vychadza had
         //otvorPortal();
     }
 
     private void generujMapu(){
-        int velkost = 20;
         for (int j=0; j<velkost; j++){
             for (int i=0; i<velkost; i++){
                 if(i==0 || j==0 || i==velkost-1 || j==velkost-1) {
@@ -38,7 +41,6 @@ public class Mapa {
         }
     }
     private void generujMapuPortalu(){
-        int velkost = 20;
         for (int j=0; j<velkost; j++){
             for (int i=0; i<velkost; i++){
                 if(i==0 || j==0 || i==velkost-1 || j==velkost-1) {
@@ -53,7 +55,6 @@ public class Mapa {
 
 
     private void generujPrekazky(){
-        int velkost = 20;
         Random rand = new Random();
         for (int j=1; j<velkost-1; j++) {
             for (int i=1; i < velkost-1; i++) {
@@ -101,17 +102,13 @@ public class Mapa {
         }
     }
 
-    private void spawn(){
-        mapa[10][10] = new Cesta();
-        mapa[10][11] = new Cesta();
-        mapa[10][9] = new Cesta();
-        mapa[9][9] = new Cesta();
-        mapa[9][10] = new Cesta();
-        mapa[9][11] = new Cesta();
-        mapa[11][9] = new Cesta();
-        mapa[11][10] = new Cesta();
-        mapa[11][10] = new Cesta();
-        mapa[11][11] = new Cesta();
+    public void spawn(){
+        int x,y;
+        for(x = 8;x < 12; x++ ){
+            for(y = 8; y < 12; y++){
+                mapa[x][y] = new Cesta();
+            }
+        }
     }
 
     public void nahodnaMapa(){
@@ -127,7 +124,6 @@ public class Mapa {
     }
 
     public void kresli(Graphics g){
-        int velkost = 20;
         for (int j=0; j<velkost; j++) {
             for (int i=0; i <velkost; i++) {
                 mapa[i][j].obr(g, i, j);
@@ -136,7 +132,12 @@ public class Mapa {
     }
 
     public void otvorPortal(){
-        mapa[3][3] = new Portal();
+        if(mapa[pozPortX][pozPortY]instanceof Cesta) {
+            Random rand = new Random();
+            pozPortX = rand.nextInt(velkost - 2) + 1;
+            pozPortY = rand.nextInt(velkost - 2) + 1;
+            mapa[pozPortX][pozPortY] = new Portal();
+        }
     }
     public boolean jePortal(int x, int y){
         if(mapa[x][y] instanceof Portal){

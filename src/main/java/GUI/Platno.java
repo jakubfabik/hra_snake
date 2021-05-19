@@ -99,5 +99,5 @@ public class Platno extends JPanel implements ActionListener {
         }
         else h.koniecHry();
 
-    }
+              }
 }

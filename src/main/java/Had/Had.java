@@ -3,6 +3,7 @@ package Had;
 import GUI.KoniecHryObrazovka;
 import Mapa.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -15,7 +16,7 @@ public class Had {
     private boolean zomrel = false;
     public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
     private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
-    private int zivot = 3;
+    private int zivot = 0;
     private int dlzka = 2;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
@@ -132,7 +133,7 @@ public class Had {
         return false;
     }
 
-    public void koniecHry(){
+    public void koniecHry() throws IOException {
         if(!koniec) {KoniecHryObrazovka obr = new KoniecHryObrazovka(skore);
             this.koniec = true;
         }

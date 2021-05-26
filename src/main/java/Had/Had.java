@@ -14,49 +14,33 @@ public class Had {
     private int[] skpp = {1,30,80,100,130,200,300,1000}; //skore pre portal, index 0 je poradie skora, od 1 su pozadovane skora
     private int skore = 0;
     private boolean zomrel = false;
-    public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
-    private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
-    private int zivot = 0;
+    public Smery smer;
+    private Smery kopiaSmeru;
+    private int zivot = 2;
     private int dlzka = 2;  // realne 5 pocitame s nulou ta je hlava
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
     int castLen = 0;
 
     public Had(Mapa mapa){
-        for(int i = 0;i<3;i++){
-            smer.add(false);
-            kopiaSmeru.add(false);
-        } //smer 0,1,2 nastavuje na false
-        smer.add(true); //zaciatocny smer je dole
-        kopiaSmeru.add(true);
+        smer = Smery.DOLE; //zaciatocny smer je dole
+        kopiaSmeru = Smery.DOLE;
         this.m = mapa;
         this.hlava = new HadHlava(10,10, 'd');
         //poleHad.add(new HadHlava(10,10));
     }
 
     public void hore() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 2) smer.set(i,true);
-        }
+        this.smer = Smery.HORE;
     }
     public void dole() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 3) smer.set(i,true);
-        }
+        this.smer = Smery.DOLE;
     }
     public void doprava() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 1) smer.set(i,true);
-        }
+        this.smer = Smery.DOPRAVA;
     }
     public void dolava() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 0) smer.set(i,true);
-        }
+        this.smer = Smery.DOLAVA;
     }
 
 
@@ -146,18 +130,9 @@ public class Had {
         }
     }
 
-    private ArrayList kopirujSmer(){
-        ArrayList kopia = new ArrayList();
-        for(Boolean bit : smer){
-            kopia.add(bit);
-        }
-        return kopia;
-    }
     private int kontKopieSmeru(){
-        for(int i = 0; i < 4; i++){
-            if(kopiaSmeru.get(i) != smer.get(i)){
-                return 1;
-            }
+        if(this.smer != this.kopiaSmeru){
+            return 1;
         }
     return 0;
     }
@@ -234,7 +209,7 @@ public class Had {
         }
         kontrolaOvocia();
         kontrolaPoralu();
-        if(smer.get(0)) {
+        if(this.smer == Smery.DOLAVA) {
             //System.out.println("stlacene dolava");
             kontPrechoduCSB('l');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()-1);
@@ -247,14 +222,14 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'l'));
                     //System.out.println("otocil sa dolava");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'l'));
             kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'l';
         }
-        if(smer.get(1)) {
+        if(this.smer == Smery.DOPRAVA) {
             //System.out.println("stlacene doprava");
             kontPrechoduCSB('r');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()+1);
@@ -267,14 +242,14 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget(),'r'));
                     //System.out.println("otocil sa doprava");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget(),'r'));
             kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'r';
         }
-        if(smer.get(2)) {
+        if(this.smer == Smery.HORE) {
             //System.out.println("stlacene hore");
             kontPrechoduCSB('u');
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()-1);
@@ -287,14 +262,14 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1,'u'));
                     //System.out.println("otocil sa hore");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1,'u'));
             kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'u';
         }
-        if(smer.get(3)) {
+        if(this.smer == Smery.DOLE) {
             kontPrechoduCSB('d');
             //System.out.println("stlacene dole");
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()+1);
@@ -307,7 +282,7 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1,'d'));
                     //System.out.println("otocil sa dole");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1,'d'));
             kontPrek();

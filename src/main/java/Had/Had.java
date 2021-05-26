@@ -13,14 +13,14 @@ public class Had {
     private Mapa m;
     private int[] skpp = {1,30,80,100,130,200,300,1000}; //skore pre portal, index 0 je poradie skora, od 1 su pozadovane skora
     private int skore = 0;
-    private boolean zomrel = false;
-    public Smery smer;
+    private boolean zomrel = false;     //premenna sluzi aby had po smrti nevyliezol na prekazku
+    private Smery smer;
     private Smery kopiaSmeru;
     private int zivot = 2;
-    private int dlzka = 2;  // realne 5 pocitame s nulou ta je hlava
+    private int dlzka = 2;  // informaticky pocet len(3)
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
-    int castLen = 0;
+    private int castLen = 0;
 
     public Had(Mapa mapa){
         smer = Smery.DOLE; //zaciatocny smer je dole
@@ -30,6 +30,10 @@ public class Had {
         //poleHad.add(new HadHlava(10,10));
     }
 
+    /**
+     * Settery na smer
+     * potrebujem mať settery ako public pre plátno
+     */
     public void hore() {
         this.smer = Smery.HORE;
     }
@@ -111,7 +115,7 @@ public class Had {
     public boolean kontrolaKoncaHry(){
         if(zivot < 0) {
             System.out.println("Koniec hry had zomrel!!!");
-            zivot--;
+            zivotMinus();
             return true;
         }
         return false;
@@ -297,7 +301,7 @@ public class Had {
             castLen --;
         }
         if(zomrel == true){     // FIX bez tohto posledna cast hada zostane po smrti chvilu na ploche
-            dlzka++;
+            dlzkaPlus();
             zomrel = false;
         }
     }
@@ -312,6 +316,9 @@ public class Had {
         else return item;
     }
 
+    /**
+     * Pripaja graficky adapter na vykreslenie casti hada.
+     */
     public void kresli(Graphics g){
         int c = 0;
         hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
@@ -341,6 +348,9 @@ public class Had {
         return casti;
     }
 
+    /**
+     * Pomocna funkcia pre triedu mapa
+     */
     public void zrusOvociaHad(){
         for(CastHada c : fifoCastiHada){
             if(m.jeOvocie(c.poz.CastHadaXget(),c.poz.CastHadaYget()) > 0){

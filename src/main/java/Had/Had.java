@@ -21,12 +21,14 @@ public class Had {
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
     private int castLen = 0;
+    private int hadX = 10;
+    private int hadY = 10;
 
     public Had(Mapa mapa){
         smer = Smery.DOLE; //zaciatocny smer je dole
         kopiaSmeru = Smery.DOLE;
         this.m = mapa;
-        this.hlava = new HadHlava(10,10, 'd');
+        this.hlava = new HadHlava(hadX, hadY, 'd');
         //poleHad.add(new HadHlava(10,10));
     }
 
@@ -199,7 +201,15 @@ public class Had {
     private void kontrolaPoralu(){
         int dlzka = this.dlzka;
         if(m.jePortal(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget())){
-            m.kresliPortal();
+            if(skore >= skpp[0] && skore <= skpp[1]){
+                hadX = 1;
+                hadY = 1;
+                m.kresliBludisko();
+            }else {
+                hadX = 10;
+                hadY = 10;
+                m.kresliPortal();
+            }
             resetHada();
             this.dlzka = dlzka;
         }

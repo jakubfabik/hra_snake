@@ -1,8 +1,10 @@
 package Mapa;
 
 import java.awt.*;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Mapa {
 
@@ -16,7 +18,6 @@ public class Mapa {
         this.mapa = new MiestoNaMape[20][20];
         ovocia = new LinkedList<>();
         nahodnaMapa();
-
     }
 
     public void kresliPortal() {
@@ -27,6 +28,11 @@ public class Mapa {
         generujOvocia();
         mapa[10][10] = new Diera();     //diera zkadial vychadza had
         //otvorPortal();
+    }
+
+    public void kresliBludisko(){
+        this.mapa = new MiestoNaMape[20][20];
+        nacitajBludisko();
     }
 
     private void generujMapu(){
@@ -51,6 +57,30 @@ public class Mapa {
                 }
             }
         }
+    }
+
+    private void nacitajBludisko(){
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("Mapa/bludisko");
+        Scanner sc = new Scanner(inputStream);
+        int sirka = 20;
+        int vyska = 20;
+        int y=0;
+        do {
+            String riadok = sc.nextLine();
+            for(int x=0; x<sirka;x++){
+                if (riadok.charAt(x) == '0') {
+                    mapa[x][y] = new Stena();
+                }else if(riadok.charAt(x) == '1'){
+                    mapa[x][y] = new Cesta();
+                }else if(riadok.charAt(x) == '2'){
+                    mapa[x][y] = new Portal();
+                }else {
+                    mapa[x][y] = new Prekazka();
+                }
+            }
+            y++;
+        }while(y<vyska);
     }
 
 

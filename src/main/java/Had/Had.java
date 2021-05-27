@@ -3,6 +3,7 @@ package Had;
 import GUI.KoniecHryObrazovka;
 import Mapa.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -12,47 +13,38 @@ public class Had {
     private Mapa m;
     private int[] skpp = {1,30,80,100,130,200,300,1000}; //skore pre portal, index 0 je poradie skora, od 1 su pozadovane skora
     private int skore = 0;
-    private boolean zomrel = false;
-    public ArrayList<Boolean> smer= new ArrayList<Boolean>(); //dolava,doprava,hore,dole
-    private ArrayList<Boolean> kopiaSmeru= new ArrayList<Boolean>();
-    private int zivot = 3;
-    private int dlzka = 2;  // realne 5 pocitame s nulou ta je hlava
+    private boolean zomrel = false;     //premenna sluzi aby had po smrti nevyliezol na prekazku
+    private Smery smer;
+    private Smery kopiaSmeru;
+    private int zivot = 2;
+    private int dlzka = 2;  // informaticky pocet len(3)
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
-    int castLen = 0;
+    private int castLen = 0;
 
     public Had(Mapa mapa){
-        for(int i = 0;i<3;i++){smer.add(false);}
-        smer.add(true); //zaciatocny smer je dole
-        kopiaSmeru.add(false);kopiaSmeru.add(false);kopiaSmeru.add(false);kopiaSmeru.add(true);
+        smer = Smery.DOLE; //zaciatocny smer je dole
+        kopiaSmeru = Smery.DOLE;
         this.m = mapa;
         this.hlava = new HadHlava(10,10, 'd');
         //poleHad.add(new HadHlava(10,10));
     }
 
+    /**
+     * Settery na smer
+     * potrebujem mať settery ako public pre plátno
+     */
     public void hore() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 2) smer.set(i,true);
-        }
+        this.smer = Smery.HORE;
     }
     public void dole() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 3) smer.set(i,true);
-        }
+        this.smer = Smery.DOLE;
     }
     public void doprava() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 1) smer.set(i,true);
-        }
+        this.smer = Smery.DOPRAVA;
     }
     public void dolava() {
-        for (int i = 0; i < 4; i++) {
-            smer.set(i, false);
-            if(i == 0) smer.set(i,true);
-        }
+        this.smer = Smery.DOLAVA;
     }
 
 
@@ -112,27 +104,24 @@ public class Had {
         this.hlava = new HadHlava(10,10, 'd');
         this.dlzka = 1;
         kontrolaKoncaHry();
-        System.out.println("Stratil si zivot, zostava " + this.zivot);
         while(castLen !=0){
             fifoCastiHada.pop();
             castLen --;
         }
         zomrel = true;
-
-
     }
 
 
     public boolean kontrolaKoncaHry(){
         if(zivot < 0) {
             System.out.println("Koniec hry had zomrel!!!");
-            zivot--;
+            zivotMinus();
             return true;
         }
         return false;
     }
 
-    public void koniecHry(){
+    public void koniecHry() throws IOException {
         if(!koniec) {KoniecHryObrazovka obr = new KoniecHryObrazovka(skore);
             this.koniec = true;
         }
@@ -145,18 +134,9 @@ public class Had {
         }
     }
 
-    private ArrayList kopirujSmer(){
-        ArrayList kopia = new ArrayList();
-        for(Boolean bit : smer){
-            kopia.add(bit);
-        }
-        return kopia;
-    }
     private int kontKopieSmeru(){
-        for(int i = 0; i < 4; i++){
-            if(kopiaSmeru.get(i) != smer.get(i)){
-                return 1;
-            }
+        if(this.smer != this.kopiaSmeru){
+            return 1;
         }
     return 0;
     }
@@ -170,6 +150,7 @@ public class Had {
         zivotMinus();
         resetHada();
         m.generujOvocia();
+        m.spawn();
         zrusOvociaHad();
     }
 
@@ -216,19 +197,23 @@ public class Had {
     }
 
     private void kontrolaPoralu(){
+        int dlzka = this.dlzka;
         if(m.jePortal(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget())){
             m.kresliPortal();
+            resetHada();
+            this.dlzka = dlzka;
         }
     }
+
 
     public void pohybHada(){
         if(getSkore() >= skpp[skpp[0]]){
             m.otvorPortal();        //zobraz portal
-            skpp[0]++;              //zvisi limit na dosiahnutie otvorenia dalsieho
+            skpp[0]++;              //zvysi limit na dosiahnutie otvorenia dalsieho
         }
         kontrolaOvocia();
         kontrolaPoralu();
-        if(smer.get(0)) {
+        if(this.smer == Smery.DOLAVA) {
             //System.out.println("stlacene dolava");
             kontPrechoduCSB('l');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()-1);
@@ -241,14 +226,14 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'l'));
                     //System.out.println("otocil sa dolava");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'l'));
             kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'l';
         }
-        if(smer.get(1)) {
+        if(this.smer == Smery.DOPRAVA) {
             //System.out.println("stlacene doprava");
             kontPrechoduCSB('r');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()+1);
@@ -261,14 +246,14 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget(),'r'));
                     //System.out.println("otocil sa doprava");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget()-1,hlava.poz.CastHadaYget(),'r'));
             kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'r';
         }
-        if(smer.get(2)) {
+        if(this.smer == Smery.HORE) {
             //System.out.println("stlacene hore");
             kontPrechoduCSB('u');
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()-1);
@@ -281,14 +266,14 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1,'u'));
                     //System.out.println("otocil sa hore");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()+1,'u'));
             kontPrek();
             castLen = castLen+1;
             hlava.orientacia = 'u';
         }
-        if(smer.get(3)) {
+        if(this.smer == Smery.DOLE) {
             kontPrechoduCSB('d');
             //System.out.println("stlacene dole");
             hlava.poz.CastHadaYset(hlava.poz.CastHadaYget()+1);
@@ -301,7 +286,7 @@ public class Had {
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1,'d'));
                     //System.out.println("otocil sa dole");
                 }
-                kopiaSmeru = kopirujSmer();
+                this.kopiaSmeru = this.smer;
             }
             else fifoCastiHada.add(new HadTelo(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget()-1,'d'));
             kontPrek();
@@ -316,7 +301,7 @@ public class Had {
             castLen --;
         }
         if(zomrel == true){     // FIX bez tohto posledna cast hada zostane po smrti chvilu na ploche
-            dlzka++;
+            dlzkaPlus();
             zomrel = false;
         }
     }
@@ -331,6 +316,9 @@ public class Had {
         else return item;
     }
 
+    /**
+     * Pripaja graficky adapter na vykreslenie casti hada.
+     */
     public void kresli(Graphics g){
         int c = 0;
         hlava.obr(g,hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget(),hlava.orientaciaCasti());
@@ -360,6 +348,9 @@ public class Had {
         return casti;
     }
 
+    /**
+     * Pomocna funkcia pre triedu mapa
+     */
     public void zrusOvociaHad(){
         for(CastHada c : fifoCastiHada){
             if(m.jeOvocie(c.poz.CastHadaXget(),c.poz.CastHadaYget()) > 0){

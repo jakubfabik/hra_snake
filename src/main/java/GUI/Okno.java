@@ -59,7 +59,7 @@ public class Okno extends JFrame {
         JLabel pohybNadpis = new JLabel();
         JLabel pohyb = new JLabel();
         JLabel pohyb2 = new JLabel();
-        URL url = getClass().getResource("GUI/had.png");
+        URL url = getClass().getResource("had.png");
         ImageIcon hadObr = new ImageIcon(url);
         JLabel had = new JLabel(hadObr);
         label1.setText("<html><h1>Meno: " + menoHraca + "</h1></html>");

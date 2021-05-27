@@ -2,8 +2,10 @@ package GUI;
 
 import Had.Had;
 import Mapa.Mapa;
+
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -57,6 +59,9 @@ public class Okno extends JFrame {
         JLabel pohybNadpis = new JLabel();
         JLabel pohyb = new JLabel();
         JLabel pohyb2 = new JLabel();
+        URL url = getClass().getResource("had.png");
+        ImageIcon hadObr = new ImageIcon(url);
+        JLabel had = new JLabel(hadObr);
         label1.setText("<html><h1>Meno: " + menoHraca + "</h1></html>");
         label2.setText("<html><h1>Legenda </h1></html>");
         label3.setText("Jablko: +10 bodov");
@@ -83,6 +88,7 @@ public class Okno extends JFrame {
         panel2.add(pohyb);
         panel2.add(pohyb2);
         panel2.add(score);
+        panel2.add(had);
     }
 
     public void zavriHracieOkno(){

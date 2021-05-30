@@ -21,14 +21,13 @@ public class Had {
     private LinkedList<CastHada> fifoCastiHada = new LinkedList<CastHada>();
     private boolean koniec = false;
     private int castLen = 0;
-    private int hadX = 10;
-    private int hadY = 10;
+    boolean jeBludisko = false;
 
     public Had(Mapa mapa){
         smer = Smery.DOLE; //zaciatocny smer je dole
         kopiaSmeru = Smery.DOLE;
         this.m = mapa;
-        this.hlava = new HadHlava(hadX, hadY, 'd');
+        this.hlava = new HadHlava(10, 10, 'd');
         //poleHad.add(new HadHlava(10,10));
     }
 
@@ -82,10 +81,11 @@ public class Had {
                     skore+=50;
                     System.out.println("Score: " + skore);
                 }
-
-                m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
-                m.generujOvocia();
+                m.zrusOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget());
                 zrusOvociaHad();
+                if(!jeBludisko) {
+                    m.generujOvocia();
+                }
             }
             else {
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())== 4){
@@ -95,15 +95,22 @@ public class Had {
                         skore = skore - 40;
                     }
                 }
-                m.zrusOvocie(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget());
-                m.generujOvocia();
+                m.zrusOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget());
                 zrusOvociaHad();
+                if(!jeBludisko) {
+                    m.generujOvocia();
+                }
             }
         }
     }
 
     public void resetHada(){
-        this.hlava = new HadHlava(10,10, 'd');
+        if(jeBludisko){
+            m.zrusVsetkyOvocia();
+            this.hlava = new HadHlava(1,1, 'd');
+        }else {
+            this.hlava = new HadHlava(10,10, 'd');
+        }
         this.dlzka = 1;
         kontrolaKoncaHry();
         while(castLen !=0){
@@ -151,8 +158,10 @@ public class Had {
         m.zrusVsetkyOvocia();
         zivotMinus();
         resetHada();
-        m.generujOvocia();
-        m.spawn();
+        if(!jeBludisko) {
+            m.generujOvocia();
+            m.spawn();
+        }
         zrusOvociaHad();
     }
 
@@ -201,13 +210,13 @@ public class Had {
     private void kontrolaPoralu(){
         int dlzka = this.dlzka;
         if(m.jePortal(hlava.poz.CastHadaXget(),hlava.poz.CastHadaYget())){
-            if(skore >= skpp[0] && skore <= skpp[1]){
-                hadX = 1;
-                hadY = 1;
+            if(skore >= skpp[0] && !jeBludisko){
+                jeBludisko = true;
+                hlava.poz.CastHadaXset(1);
+                hlava.poz.CastHadaYset(1);
                 m.kresliBludisko();
             }else {
-                hadX = 10;
-                hadY = 10;
+                jeBludisko = false;
                 m.kresliPortal();
             }
             resetHada();

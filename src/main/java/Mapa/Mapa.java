@@ -81,6 +81,7 @@ public class Mapa {
             }
             y++;
         }while(y<vyska);
+        zrusVsetkyOvocia();
     }
 
 

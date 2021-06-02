@@ -46,7 +46,7 @@ public class HadHlava extends CastHada {
         g.drawImage(img, i*30, j*30, null);
 
     }
-
+        public void nastavOrientaciu(char o){super.orientacia = o;}
 
 }
 

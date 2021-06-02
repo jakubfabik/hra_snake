@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 
-public class Had {
+public class Had implements HadInterface {
     private HadHlava hlava;
     private Mapa m;
     private int[] skpp = {1,30,80,100,130,200,300,1000}; //skore pre portal, index 0 je poradie skora, od 1 su pozadovane skora
@@ -130,19 +130,27 @@ public class Had {
         return false;
     }
 
+    /**
+     * Metóda bola vytvorená aby sa objekt z triedy plátno mohol správne
+     * zachovať na koniec hry.
+     */
     public void koniecHry() throws IOException {
         if(!koniec) {KoniecHryObrazovka obr = new KoniecHryObrazovka(skore);
             this.koniec = true;
         }
     }
 
-    public void kontPrek(){
+    private void kontPrek(){
         if(m.jeStena(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())
                 || m.jePrekazka(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget())){
             smrtiacaProcedura();
         }
     }
 
+    /**
+     * Kópiu smeru používam na zistenie zmeny smeru a uchovanie informácie o poslednom smere.
+     * Túto pomocnú metódu potrebujem pre správny pohyb hada v smere hod. ručičiek a opačnom.
+     */
     private int kontKopieSmeru(){
         if(this.smer != this.kopiaSmeru){
             return 1;
@@ -154,6 +162,9 @@ public class Had {
         return this.skore;
     }
 
+    /**
+     * Rieši čo sa má udiať keď had narazí na prekážku.
+     */
     public void smrtiacaProcedura(){
         m.zrusVsetkyOvocia();
         zivotMinus();
@@ -224,7 +235,9 @@ public class Had {
         }
     }
 
-
+    /**
+     * Urobí pohyb v smere, ktorý je uložený v enum premennej this.smer .
+     */
     public void pohybHada(){
         if(getSkore() >= skpp[skpp[0]]){
             m.otvorPortal();        //zobraz portal
@@ -236,7 +249,8 @@ public class Had {
             //System.out.println("stlacene dolava");
             kontPrechoduCSB('l');
             hlava.poz.CastHadaXset(hlava.poz.CastHadaXget()-1);
-            if(kontKopieSmeru() == 1){
+            if(kontKopieSmeru() == 1){      //kontrola či nedošlo k zmene smeru oproti smeru posledného posunu
+                //tu nastávajú iba dve možnosti pohybu buď v smere hodinových ručičiek alebo opačne
                 if(hlava.orientacia == 'd'){
                     fifoCastiHada.add(new HadObluk(hlava.poz.CastHadaXget()+1,hlava.poz.CastHadaYget(),'h'));
                     //System.out.println("otocil sa dolava ZMENA!!!");
@@ -325,6 +339,9 @@ public class Had {
         }
     }
 
+    /**
+     * Pomocná metóda ktorá rozlišuje medzi ukončeniami hada, oblúk alebo telo.
+     */
     private CastHada koniecHada(CastHada item){
         if(item instanceof HadTelo){
             return new HadTeloKoniec(item.poz.CastHadaXget(), item.poz.CastHadaYget(),item.orientaciaCasti());

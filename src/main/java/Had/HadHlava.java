@@ -7,7 +7,10 @@ import java.net.URL;
 public class HadHlava extends CastHada {
 
 
-
+    /**
+     *HadHlava rozširujúca triedu časť vsebe uchováva aktuálnu,
+     * pozíziu začiatku hada.
+     */
     public HadHlava(int x, int y, char o) {
         super(x, y, o);
     }

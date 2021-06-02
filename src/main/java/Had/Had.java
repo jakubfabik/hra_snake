@@ -6,6 +6,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 
 public class Had implements HadInterface {
@@ -22,13 +24,14 @@ public class Had implements HadInterface {
     private boolean koniec = false;
     private int castLen = 0;
     boolean jeBludisko = false;
+    Logger logger;
 
     public Had(Mapa mapa){
+        logger = Logger.getLogger("snake.src.main.java.Had");
         smer = Smery.DOLE; //zaciatocny smer je dole
         kopiaSmeru = Smery.DOLE;
         this.m = mapa;
         this.hlava = new HadHlava(10, 10, 'd');
-        //poleHad.add(new HadHlava(10,10));
     }
 
     /**
@@ -71,15 +74,15 @@ public class Had implements HadInterface {
                 dlzka++;
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 1){
                     skore+=10;
-                    System.out.println("Score: " + skore);
+                    logger.log(Level.INFO, "Score: " + skore);
                 }
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 2){
                     skore+=20;
-                    System.out.println("Score: " + skore);
+                    logger.log(Level.INFO, "Score: " + skore);
                 }
                 if (m.jeOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget()) == 3){
                     skore+=50;
-                    System.out.println("Score: " + skore);
+                    logger.log(Level.INFO, "Score: " + skore);
                 }
                 m.zrusOvocie(hlava.poz.CastHadaXget(), hlava.poz.CastHadaYget());
                 zrusOvociaHad();
@@ -123,7 +126,7 @@ public class Had implements HadInterface {
 
     public boolean kontrolaKoncaHry(){
         if(zivot < 0) {
-            System.out.println("Koniec hry had zomrel!!!");
+            logger.log(Level.INFO, "Koniec hry had zomrel!!!");
             zivotMinus();
             return true;
         }
@@ -184,7 +187,7 @@ public class Had implements HadInterface {
             for (CastHada cast : fifoCastiHada) {
                 if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()-1
                     && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()){
-                    System.out.println("vlavo do seba");
+                    logger.log(Level.INFO, "vlavo vstupil do seba");
                     smrtiacaProcedura();
                 }
             }
@@ -193,7 +196,7 @@ public class Had implements HadInterface {
             for (CastHada cast : fifoCastiHada) {
                 if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()+1
                         && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()){
-                    System.out.println("vpravo doseba");
+                    logger.log(Level.INFO, "vpravo vstupil do seba");
                     smrtiacaProcedura();
                 }
             }
@@ -202,7 +205,7 @@ public class Had implements HadInterface {
             for (CastHada cast : fifoCastiHada) {
                 if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()
                         && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()-1){
-                    System.out.println("hore do seba");
+                    logger.log(Level.INFO, "hore vstupil do seba");
                     smrtiacaProcedura();
                 }
             }
@@ -211,7 +214,7 @@ public class Had implements HadInterface {
             for (CastHada cast : fifoCastiHada) {
                 if (cast.poz.CastHadaXget() == hlava.poz.CastHadaXget()+1
                         && cast.poz.CastHadaYget() == hlava.poz.CastHadaYget()+1){
-                    System.out.println("dole do seba");
+                    logger.log(Level.INFO, "dole vstupil do seba");
                     smrtiacaProcedura();
                 }
             }
@@ -225,6 +228,7 @@ public class Had implements HadInterface {
                 jeBludisko = true;
                 hlava.poz.CastHadaXset(1);
                 hlava.poz.CastHadaYset(1);
+                hlava.nastavOrientaciu('d');  //nastavil som orientaciu dole lebo bludisko ma smerom dole priestor
                 m.kresliBludisko();
             }else {
                 jeBludisko = false;
@@ -241,6 +245,7 @@ public class Had implements HadInterface {
     public void pohybHada(){
         if(getSkore() >= skpp[skpp[0]]){
             m.otvorPortal();        //zobraz portal
+            logger.log(Level.INFO, "otvoril sa portal");
             skpp[0]++;              //zvysi limit na dosiahnutie otvorenia dalsieho
         }
         kontrolaOvocia();

@@ -48,24 +48,29 @@ public class UvodnaObrazovka extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
+                //zloženie hráčovho mena z hodnôt v jednotlivých jspinneroch
                 meno = s1.getValue() + "" + s2.getValue() + "" + s3.getValue();
                 System.out.println(meno);
+                //otvorenie okna hry
                 okno = new Okno(meno);
             }
         });
 
+        // Vyberanie trojpísmenového mena ako v starých arkádovkách
         JPanel center = new JPanel();
         center.setLayout(new GridLayout(0,3));
         String abeceda[] = {"A", "B", "C", "D", "E","F", "G",
                 "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
                 "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
         };
+
+        //jspinner pre od A po Z = String abeceda
         s1 = new JSpinner(new SpinnerListModel(abeceda));
-        s1.setFont(new Font("Monospaced", Font.PLAIN, 400));
-        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setEditable(false);
-        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setBackground(Color.YELLOW);
-        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setForeground(Color.BLACK);
-        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setHorizontalAlignment(JTextField.CENTER);
+        s1.setFont(new Font("Monospaced", Font.PLAIN, 400)); //nastavenie fontu a velkosti
+        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setEditable(false); //zrušenie editovania jspinnera
+        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setBackground(Color.YELLOW); //nastavenie farby pozadia
+        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setForeground(Color.BLACK); //nastavenie farby písma
+        ((JSpinner.DefaultEditor) s1.getEditor()).getTextField().setHorizontalAlignment(JTextField.CENTER); //Zarovnanie písmena na stred v jspinnery
         center.add(s1);
 
         s2 = new JSpinner(new SpinnerListModel(abeceda));

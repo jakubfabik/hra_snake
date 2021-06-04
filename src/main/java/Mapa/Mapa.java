@@ -20,12 +20,13 @@ public class Mapa {
         nahodnaMapa();
     }
 
+    /**
+     * Metóda vygeneruje náhodnú mapu s dierou z ktorej had výjde po prejdení cez portál
+     */
     public void kresliPortal() {
         this.mapa = new MiestoNaMape[20][20];
         ovocia = new LinkedList<>();
-        generujMapuPortalu();
-        generujPrekazky();
-        generujOvocia();
+        nahodnaMapa();
         mapa[10][10] = new Diera();     //diera zkadial vychadza had
         //otvorPortal();
     }
@@ -34,7 +35,9 @@ public class Mapa {
         this.mapa = new MiestoNaMape[20][20];
         nacitajBludisko();
     }
-
+    /**
+     * Metóda vygeneruje ohraničenie mapy
+     */
     private void generujMapu(){
         for (int j=0; j<velkost; j++){
             for (int i=0; i<velkost; i++){
@@ -46,19 +49,11 @@ public class Mapa {
             }
         }
     }
-    private void generujMapuPortalu(){
-        for (int j=0; j<velkost; j++){
-            for (int i=0; i<velkost; i++){
-                if(i==0 || j==0 || i==velkost-1 || j==velkost-1) {
-                    mapa[i][j] = new Stena();
-                }else{
-                    mapa[i][j] = new Cesta();
-                    mapa[i][j].typCesty = 'p';
-                }
-            }
-        }
-    }
 
+    /**
+     * Metóda načíta bludisko zo súboru
+     * a vytvorí z neho mapu
+     */
     private void nacitajBludisko(){
         ClassLoader classLoader = this.getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("Mapa/bludisko");
@@ -84,7 +79,9 @@ public class Mapa {
         zrusVsetkyOvocia();
     }
 
-
+    /**
+     * Metóda vygeneruje náhodný počet prekážok na náhodných miestach
+     */
     private void generujPrekazky(){
         Random rand = new Random();
         for (int j=1; j<velkost-1; j++) {
@@ -101,7 +98,12 @@ public class Mapa {
         }
         spawn();
     }
-
+    /**
+     * Metóda generuje ovocia, od 1 po 4
+     * Najväčšiu šancu vygeneravnia má Jablko
+     * potom Hruška
+     * Banán a Huba majú rovnakú šancu
+     */
     public void generujOvocia(){
         Random rand = new Random();
         int pocetOvoci = rand.nextInt(3)+1;
@@ -133,6 +135,9 @@ public class Mapa {
         }
     }
 
+    /**
+     * Pomocná metóda, aby sa pri mieste objavenia hada nevygenerovali prekážky
+     */
     public void spawn(){
         int x,y;
         for(x = 8;x < 12; x++ ){
@@ -142,18 +147,25 @@ public class Mapa {
         }
     }
 
+
     public void nahodnaMapa(){
         generujMapu();
         generujPrekazky();
         generujOvocia();
     }
 
+    /**
+     * Metóda prejde celý zoznam ovocia a vykreslí textúru
+     */
     public void kresliOvocia(Graphics g){
         ovocia.forEach((item) -> {
             item.obr(g, item.x, item.y);
         });
     }
 
+    /**
+     * Metóda vykreslí textúru podľa pozície na mape
+     */
     public void kresli(Graphics g){
         for (int j=0; j<velkost; j++) {
             for (int i=0; i <velkost; i++) {
@@ -162,6 +174,9 @@ public class Mapa {
         }
     }
 
+    /**
+     * Metóda otvorí portál na náhodnej pozícii po dosiahnutí určítého skóre
+     */
     public void otvorPortal(){
         if(mapa[pozPortX][pozPortY]instanceof Cesta) {
             Random rand = new Random();
@@ -170,24 +185,38 @@ public class Mapa {
             mapa[pozPortX][pozPortY] = new Portal();
         }
     }
+
+    /**
+     * Metóda slúži pre hada na zistenie portál
+     * x - pozícia hlavy hada
+     * y - pozícia hlavy hada
+     */
     public boolean jePortal(int x, int y){
         if(mapa[x][y] instanceof Portal){
             return true;
         }
         return false;
     }
-    public boolean jeCesta(int x, int y){
-        if(mapa[x][y] instanceof Cesta){
-            return true;
-        }
-        return false;
-    }
+
+    /**
+     * Metóda slúži pre hada na zistenie Steny
+     * Stena - ohraničenie mapy
+     * x - pozícia hlavy hada
+     * y - pozícia hlavy hada
+     */
     public boolean jeStena(int x, int y){
         if(mapa[x][y] instanceof Stena){
             return true;
         }
         return false;
     }
+
+    /**
+     * Metóda slúži pre hada na zistenie prekážky
+     * prekážka - nachádzajú sa vo vnútri mapy
+     * x - pozícia hlavy hada
+     * y - pozícia hlavy hada
+     */
     public boolean jePrekazka(int x, int y){
         if(mapa[x][y] instanceof Prekazka){
             return true;
@@ -195,6 +224,15 @@ public class Mapa {
         return false;
     }
 
+    /**
+     * Metóda vráti číslo od 1 po 4 podľa druhu ovocia
+     * ak nie je ovocie na pozícii x y (parametre funkcie) vráti 0
+     * Každý druh ovocia pridáva alebo odoberá iné skóre
+     * Jablko +10
+     * Hruska +20
+     * Banan +50
+     * Huba -40
+     */
     public int jeOvocie(int x, int y){
         for (Ovocie item : ovocia) {
             if (item.x == x && item.y == y) {
@@ -215,6 +253,12 @@ public class Mapa {
         return 0;
     }
 
+    /**
+     * Metóda zruší ovocie na danej pozícii
+     * Slúži na vymazanie ovocia, ktoré had akurát zjedol
+     * @param x - x-ová pozícia hlavy hada
+     * @param y - y-ová pozícia hlavy hada
+     */
     public void zrusOvocie(int x, int y){
         for(int i=0; i < ovocia.size(); i++){
             if(ovocia.get(i).x == x && ovocia.get(i).y == y){
@@ -222,6 +266,11 @@ public class Mapa {
             }
         }
     }
+
+    /**
+     * Metóda zruší všetky ovocia
+     * Nastaví spájaný zoznam ovocia na nový LinkedList
+     */
     public void zrusVsetkyOvocia(){
         ovocia = new LinkedList<>();
     }
